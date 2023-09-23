@@ -1,9 +1,9 @@
 import '@/shared/styles/global.scss'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import { Meta } from './meta'
+import { Montserrat } from "next/font/google";
+import { Meta } from "./meta";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: 'Worship',
@@ -16,9 +16,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <Meta/>
-      <body className={inter.className}>{children}</body>
-    </html>
-  )
+      <html lang="en">
+          {/* <Meta/> */}
+          <body className={inter.className}>{children}</body>
+      </html>
+  );
 }
