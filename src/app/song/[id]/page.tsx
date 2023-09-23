@@ -1,40 +1,27 @@
-"use client";
-
-import { useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
-
 import { ChordSelector } from "@/shared/components";
-import { LeftArrowIcon } from "@/shared/icons";
 
 import styles from "./page.module.scss";
 
 import data from "@/data/songs.json";
+import ArrowBack from "./_componets/arrow-back";
 
-export default function Song() {
-    const { id } = useParams();
-    const navigation = useRouter();
+export async function generateStaticParams() {
+    return data.map(({ index }) => ({
+        id: String(index),
+    }));
+}
 
-    const handleGoBack = () => {
-        if (window.history.length === 1) {
-            navigation.push("/");
-        } else {
-            navigation.back();
-        }
-    };
-
-    const song = data[+id];
-
-    useEffect(() => {
-        document.title = song.title;
-    }, [song]);
+export default function Song({ params }: { params: { id: string } }) {
+    const song = data[+params?.id];
 
     return (
         <div className={""}>
             <div className={styles.header}>
-                <div onClick={handleGoBack}>
+                {/* <div onClick={handleGoBack}>
                     <LeftArrowIcon />
-                </div>
-                <span>№{+id + 1}</span>
+                </div> */}
+                <ArrowBack />
+                <span>№{+params?.id + 1}</span>
                 <ChordSelector />
             </div>
             <div className={styles.song}>
