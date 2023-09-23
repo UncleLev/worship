@@ -1,0 +1,19 @@
+@import './vars.scss';
+
+@function color($color, $tone: 400) {
+    $palette: map-get($palettes, $color);
+
+    @if not $palette {
+        @warn "unknown color `#{$color}` in palette";
+        @return null;
+    }
+
+    $shade: map-get($palette, $tone);
+
+    @if not $shade {
+        @warn "unknown tone `#{$tone}` in color `#{$color}`";
+        @return null;
+    }
+
+    @return $shade;
+}

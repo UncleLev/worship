@@ -1,0 +1,36 @@
+@import '@/shared/styles/mixins.scss';
+
+.header {
+    width: 100%;
+
+    background: color(main);
+    display: flex;
+    padding: 20px 57px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    align-self: stretch;
+    border-radius: 0px 0px 30px 30px;
+    &__title {
+        color: color(grey, 100);
+        font-size: 40px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 40px;
+    }
+}
+
+.page {
+    &__content {
+        display: grid;
+    }
+
+    &__search {
+        padding: 10px;
+    }
+    &__list {
+        display: grid;
+        gap: 10px;
+    }
+}

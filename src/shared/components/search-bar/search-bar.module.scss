@@ -1,0 +1,24 @@
+@import '@/shared/styles/mixins.scss';
+
+.search {
+    display: flex;
+    width: 100%;
+    padding: 10px 25px 10px 15px;
+    align-items: center;
+    gap: 20px;
+    border-radius: 20px;
+    border: 1px solid color(grey, 900);
+    &__input {
+        width: calc(100% - 40px);
+        outline: none;
+        border: none;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 40px;
+        color: color(text);
+        &::placeholder {
+            color: color(grey, 500);
+        }
+    }
+}
