@@ -1,4 +1,6 @@
-import { ArrowBack, ShareBtn } from "./_components";
+import cs from "classnames";
+
+import { ArrowBack, ShareBtn, SongView } from "./_components";
 
 import styles from "./page.module.scss";
 
@@ -11,32 +13,15 @@ export async function generateStaticParams() {
 
 export default function Song({ params }: { params: { id: string } }) {
     const song = data[+params?.id];
-
     return (
         <div className={""}>
             <div className={styles.header}>
                 <ArrowBack />
                 <span>№{+params?.id + 1}</span>
-                <ShareBtn
-                    title={song.title}
-                    text={song.blocks[0].text || song.blocks[1].text}
-                />
+                <ShareBtn title={song.title} />
             </div>
-            <div className={styles.song}>
-                <h2 className={styles.song__title}>{song?.title}</h2>
-                {song.blocks.map((block, i) => (
-                    <div key={i} className={styles.block}>
-                        <span className={styles.block__title}>
-                            {block.title}
-                        </span>
-                        {block.text && (
-                            <div
-                                className={styles.block__text}
-                                dangerouslySetInnerHTML={{ __html: block.text }}
-                            ></div>
-                        )}
-                    </div>
-                ))}
+            <div className={styles.songContainer}>
+                <SongView song={song} />
             </div>
         </div>
     );

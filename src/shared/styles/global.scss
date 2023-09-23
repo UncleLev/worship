@@ -17,26 +17,22 @@ a {
     text-decoration: none;
 }
 
-// // @media (prefers-color-scheme: dark) {
-// //     html {
-// //         color-scheme: dark;
-// //     }
-// // }
-// ::-webkit-scrollbar {
-//     width: 5px;
-// }
 
-// ::-webkit-scrollbar-thumb {
-//     background-color: color(gray, 300);
-// }
 span.chords {
     color: color(chords);
     font-weight: 700;
-    // display: none;
+}
+
+.hide {
+    span.chords {
+        display: none;
+    }
 }
 
 /* clears the ‘X’ from Chrome */
-input[type="search"]::-webkit-search-decoration,
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-results-button,
-input[type="search"]::-webkit-search-results-decoration { display: none; }
+input[type='search']::-webkit-search-decoration,
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-results-button,
+input[type='search']::-webkit-search-results-decoration {
+    display: none;
+}

@@ -11,17 +11,16 @@ import styles from "./share-btn.module.scss";
 type ShareBtnType = {
     className?: string;
     title: string;
-    text: string;
 };
 
-const ShareBtn = ({ className, title, text }: ShareBtnType) => {
+const ShareBtn = ({ className, title }: ShareBtnType) => {
     const path = usePathname();
 
     const handleClick = () => {
         if (navigator.share) {
             navigator.share({
                 title,
-                text: `${text.slice(0, 50)}...`,
+                text: title,
                 url: path,
             });
         } else {
