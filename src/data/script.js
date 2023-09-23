@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 
 const chordRx2 =
     /[A-H](b|#)?(maj|min|m|M|\+|-|dim|aug)?[0-9]*(sus)?[0-9]*(\/[A-H](b|#)?)?/;
@@ -54,7 +55,10 @@ function compare(a, b) {
 }
 
 async function main() {
-    const songs = fs.readFileSync("./songs.txt", { encoding: "utf-8" });
+    const filePath = path.join(__dirname, "songs.txt");
+    const songs = fs.readFileSync(filePath, {
+        encoding: "utf-8",
+    });
     const songSeparator = "________________";
 
     const songsArray = songs.split(songSeparator);

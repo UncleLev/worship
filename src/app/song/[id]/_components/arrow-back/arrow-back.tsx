@@ -1,4 +1,3 @@
-// import cs from "classnames";
 "use client";
 import { LeftArrowIcon } from "@/shared/icons";
 import { useRouter } from "next/navigation";
@@ -19,7 +18,7 @@ const ArrowBack = ({ className }: ArrowBackType) => {
     };
 
     return (
-        <div onClick={handleGoBack}>
+        <div className={className} onClick={handleGoBack}>
             <LeftArrowIcon />
         </div>
     );
