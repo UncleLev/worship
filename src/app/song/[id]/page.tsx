@@ -1,4 +1,4 @@
-import cs from "classnames";
+import { Metadata, ResolvingMetadata } from "next/types";
 
 import { ArrowBack, ShareBtn, SongView } from "./_components";
 
@@ -9,6 +9,19 @@ export async function generateStaticParams() {
     return data.map(({ index }) => ({
         id: String(index),
     }));
+}
+
+export async function generateMetadata({
+    params,
+}: {
+    params: { id: string };
+}): Promise<Metadata> {
+    const id = params.id;
+    const song = data[+id];
+
+    return {
+        title: song.title,
+    };
 }
 
 export default function Song({ params }: { params: { id: string } }) {

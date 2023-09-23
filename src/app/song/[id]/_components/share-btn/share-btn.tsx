@@ -2,8 +2,6 @@
 
 import cs from "classnames";
 
-import { usePathname } from "next/navigation";
-
 import { ShareIcon } from "@/shared/icons";
 
 import styles from "./share-btn.module.scss";
@@ -14,14 +12,12 @@ type ShareBtnType = {
 };
 
 const ShareBtn = ({ className, title }: ShareBtnType) => {
-    const path = usePathname();
-
     const handleClick = () => {
         if (navigator.share) {
             navigator.share({
                 title,
                 text: title,
-                url: path,
+                url: document.location.href,
             });
         } else {
             // TODO: add copy
