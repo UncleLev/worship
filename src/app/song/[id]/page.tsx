@@ -1,4 +1,4 @@
-import { ArrowBack, ShareBtn } from "./_componets";
+import { ArrowBack, ShareBtn } from "./_components";
 
 import styles from "./page.module.scss";
 
