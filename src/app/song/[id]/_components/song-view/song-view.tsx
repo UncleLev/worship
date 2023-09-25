@@ -1,6 +1,6 @@
 "use client";
 import cs from "classnames";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 import styles from "./song-view.module.scss";
 import { ChordIcon } from "@/shared/icons";
@@ -25,7 +25,7 @@ const SongView = ({ className, song }: SongViewType) => {
         });
     };
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const hide = localStorage.getItem(hideKey) === "true";
         setHideChords(hide);
     }, []);
