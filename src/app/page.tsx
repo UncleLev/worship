@@ -16,8 +16,8 @@ const findSongs = (input: string) => {
         return song ? [song] : [];
     }
 
-    if (input) {
-        const rx = new RegExp(input.toLowerCase());
+    if (input.trim()) {
+        const rx = new RegExp(input.trim().toLowerCase());
         return songs.filter((el) => rx.test(el.title.toLowerCase()));
     }
     return [];

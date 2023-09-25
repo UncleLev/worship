@@ -18,7 +18,7 @@ function parseText(text) {
         const chords = str.split(" ").filter((el) => el.trim());
         if (chords.length && chordRx2.test(chords.at(0))) {
             data += `<span class="chords">${el}</span>`;
-        } else if (!str && nextStr) {
+        } else if (!str && nextStr && i !== 0) {
             data += `<span> </span>`;
         } else if (str) {
             data += `<span>${el}</span>`;
@@ -67,7 +67,9 @@ async function main() {
         .sort(compare)
         .map((song, i) => ({ ...song, index: i }));
 
-    fs.writeFileSync("songs.json", JSON.stringify(data));
+    const songsPath = path.join(__dirname, "songs.json");
+
+    fs.writeFileSync(songsPath, JSON.stringify(data));
 }
 
 main();
