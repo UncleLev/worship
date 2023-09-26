@@ -2,18 +2,20 @@
     "name": "my-app",
     "version": "0.1.0",
     "private": true,
+    "type": "module",
     "scripts": {
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "songs": "node src/data/script.js"
+        "songs": "tsx src/data/script.ts"
     },
     "dependencies": {
         "@types/lodash": "^4.14.199",
         "@types/node": "20.6.3",
         "@types/react": "18.2.22",
         "@types/react-dom": "18.2.7",
+        "@types/react-modal": "^3.16.0",
         "classnames": "^2.3.2",
         "css-modules": "^0.3.0",
         "eslint": "8.49.0",
@@ -24,8 +26,9 @@
         "node-sass": "^9.0.0",
         "react": "18.2.0",
         "react-dom": "18.2.0",
+        "react-modal": "^3.16.1",
         "sass": "^1.68.0",
-        "tonal": "^5.0.0",
+        "tsx": "^3.13.0",
         "typescript": "5.2.2"
     }
 }

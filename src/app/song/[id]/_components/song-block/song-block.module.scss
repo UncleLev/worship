@@ -1,0 +1,15 @@
+@import '@/shared/styles/mixins.scss';
+
+.text {
+    display: grid;
+    color: color(text);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 27px;
+    white-space: pre-wrap;
+    &__chords {
+        color: color(chords);
+        font-weight: 700;
+    }
+}

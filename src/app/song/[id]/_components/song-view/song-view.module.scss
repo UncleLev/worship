@@ -45,6 +45,24 @@
     }
 }
 
+.text {
+    display: grid;
+    color: color(text);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 27px;
+    white-space: pre-wrap;
+    &__chords {
+        color: color(chords);
+        font-weight: 700;
+
+        &--hide {
+            display: none;
+        }
+    }
+}
+
 .flowBtns {
     display: flex;
     gap: 10px;
@@ -57,7 +75,7 @@
         outline: none;
         border-radius: 50%;
         background: transparent;
-        color: color(grey,800);
+        color: color(grey, 800);
         padding: 8px;
         border: 1px solid color(grey, 700);
         box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
