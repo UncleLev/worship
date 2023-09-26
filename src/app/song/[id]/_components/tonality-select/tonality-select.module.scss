@@ -1,0 +1,30 @@
+@import '@/shared/styles/mixins.scss';
+
+.list {
+    display: flex;
+    flex-direction: column;
+    &__item {
+        border-bottom: 1px solid color(grey, 300);
+        padding: 10px 30px;
+        font-size: 24px;
+        &--active {
+            font-weight: 600;
+            background: color(grey, 200);
+        }
+    }
+}
+
+.button {
+    display: grid;
+    place-items: center;
+    outline: none;
+    border-radius: 50%;
+    background: transparent;
+    color: color(grey, 800);
+    padding: 8px;
+    border: 1px solid color(grey, 700);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    width: 47px;
+    font-weight: 600;
+    font-size: 20px;
+}
