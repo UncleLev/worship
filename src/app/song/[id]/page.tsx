@@ -1,8 +1,10 @@
-import { Metadata, ResolvingMetadata } from "next/types";
+import { Metadata } from "next/types";
 
 import { ArrowBack, ShareBtn, SongView } from "./_components";
 
 import styles from "./page.module.scss";
+
+import { SongType } from "@/shared/types";
 
 import data from "@/data/songs.json";
 export async function generateStaticParams() {
@@ -17,7 +19,7 @@ export async function generateMetadata({
     params: { id: string };
 }): Promise<Metadata> {
     const id = params.id;
-    const song = data[+id];
+    const song = data[+id] as SongType;
 
     return {
         title: song.title,
@@ -34,7 +36,7 @@ export default function Song({ params }: { params: { id: string } }) {
                 <ShareBtn title={song.title} />
             </div>
             <div className={styles.songContainer}>
-                <SongView song={song} />
+                <SongView song={song as SongType} />
             </div>
         </div>
     );
