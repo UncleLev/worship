@@ -22,6 +22,7 @@ export function formatChord(chord: string): string {
         return "A#";
     }
 
+    if (chord === "Eb") return "D#";
     return chord;
 }
 
@@ -35,8 +36,12 @@ function transposeChord(chord: string, amount: number): string {
 }
 
 export function toneDiff(originKey: string, transposeKey: string): number {
-    const orIndex = scale.findIndex((value) => value === originKey);
-    const trIndex = scale.findIndex((value) => value === transposeKey);
+    const orIndex = scale.findIndex(
+        (value) => value === formatChord(originKey)
+    );
+    const trIndex = scale.findIndex(
+        (value) => value === formatChord(transposeKey)
+    );
     if (orIndex === -1 || trIndex === -1) {
         throw new Error(`Can't find ${originKey} || ${transposeKey}`);
     }
@@ -59,10 +64,11 @@ export function transposeChordsString(
             continue;
         }
 
-        if (["#"].includes(s)) {
+        if (["#", "b"].includes(s)) {
             continue;
         }
-        if (str[i + 1] === "#") {
+
+        if (["#", "b"].includes(str[i + 1])) {
             s = str[i] + str[i + 1];
         }
 
