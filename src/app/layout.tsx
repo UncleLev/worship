@@ -1,7 +1,6 @@
 import "@/shared/styles/global.scss";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
-// import { Meta } from "./meta";
 
 const inter = Montserrat({ subsets: ["latin"] });
 
@@ -11,9 +10,12 @@ export const metadata: Metadata = {
         template: "%s | Worship",
     },
     description: "Міні пісеник",
+    manifest: "/manifest.json",
     icons: {
-        icon: "/icons/favicon-32x32.png",
+        apple: "/icon.png",
+        icon: "/icon.png",
     },
+    themeColor: "#fff",
 };
 
 export default function RootLayout({
@@ -23,7 +25,6 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            {/* <Meta /> */}
             <body className={inter.className}>{children}</body>
         </html>
     );

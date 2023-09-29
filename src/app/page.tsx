@@ -24,7 +24,7 @@ const findSongs = (input: string) => {
 };
 
 export default function Home() {
-    const title = "Пісні 1.0";
+    const title = "Worship";
     const [search, setSearch] = useState("");
 
     const data = useMemo(() => findSongs(search), [search]);
