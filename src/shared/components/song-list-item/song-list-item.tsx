@@ -14,10 +14,12 @@ type SongListItemType = {
 
 const SongListItem = ({ className, index, name }: SongListItemType) => {
     return (
-        <Link className={cs(styles.item, className)} href={`/song/${index}`}>
-            <span className={styles.item__name}>
-                {`${index + 1}. ${name}`}
-            </span>
+        <Link
+            className={cs(styles.item, className)}
+            href={`/song/${index}`}
+            prefetch
+        >
+            <span className={styles.item__name}>{`${index + 1}. ${name}`}</span>
             <RightArrowIcon />
         </Link>
     );

@@ -10,6 +10,7 @@ const ArrowBack = ({ className }: ArrowBackType) => {
     const navigation = useRouter();
 
     const handleGoBack = () => {
+        console.log(window.history);
         if (window.history.length === 1) {
             navigation.push("/");
         } else {
