@@ -11,9 +11,15 @@ type SearchBarType = {
     className?: string;
     placeholder?: string;
     onChange: (value: string) => void;
+    value: string;
 };
 
-const SearchBar = ({ className, placeholder, onChange }: SearchBarType) => {
+const SearchBar = ({
+    className,
+    value,
+    placeholder,
+    onChange,
+}: SearchBarType) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         onChange(value);
@@ -28,6 +34,7 @@ const SearchBar = ({ className, placeholder, onChange }: SearchBarType) => {
                 onChange={throttledOnChange}
                 className={styles.search__input}
                 type="search"
+                value={value}
                 placeholder={placeholder ?? "Шукати..."}
             />
         </label>

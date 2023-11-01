@@ -1,33 +1,98 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { SearchBar, SongListItem } from "@/shared/components";
+import { Filter } from "./_components";
+
+import { ResetIcon } from "@/shared/icons";
+
+import { FilterEnum, SongType } from "@/shared/types";
 
 import styles from "./page.module.scss";
 
 import songs from "@/data/songs.json";
 
-const findSongs = (input: string) => {
-    if (!input) return songs;
+const randomNumbArray = ({
+    length,
+    max,
+    min = 0,
+}: {
+    length: number;
+    max: number;
+    min: number;
+}) => {
+    const result: number[] = [];
+    while (result.length !== length) {
+        const randNum = Math.floor(Math.random() * (max - min + 1)) + min;
+        if (!result.includes(randNum)) result.push(randNum);
+    }
+    return result;
+};
+
+const findSongs = (input: string, filter: FilterEnum | null): SongType[] => {
+    if (filter === FilterEnum.random) {
+        const randArr = randomNumbArray({
+            length: 3,
+            min: 0,
+            max: songs.length - 1,
+        });
+
+        return songs.filter((song) =>
+            randArr.includes(song.index)
+        ) as SongType[];
+    }
+
+    if (!input) return songs as SongType[];
 
     if (!Number.isNaN(+input) && Number.isInteger(+input)) {
         const song = songs[+input - 1];
-        return song ? [song] : [];
+        const res = song ? [song] : ([] as SongType[]);
+        return res as SongType[];
     }
 
     if (input.trim()) {
         const rx = new RegExp(input.trim().toLowerCase());
-        return songs.filter((el) => rx.test(el.title.toLowerCase()));
+        return songs.filter((el) =>
+            rx.test(el.title.toLowerCase())
+        ) as SongType[];
     }
     return [];
 };
 
 export default function Home() {
-    const title = "Пісні 1.0";
+    const title = "Worship";
     const [search, setSearch] = useState("");
+    const [filer, setFiler] = useState<FilterEnum | null>(null);
+    const [data, setData] = useState<SongType[]>(findSongs("", null));
 
-    const data = useMemo(() => findSongs(search), [search]);
+    const updateData = useCallback(
+        () => setData(findSongs(search, filer)),
+        [filer, search]
+    );
+
+    const handleFilter = (type: FilterEnum) => {
+        setSearch("");
+
+        if (filer === type) {
+            setFiler(null);
+            return;
+        }
+        setFiler(type);
+    };
+
+    const handleSearch = (value: string) => {
+        setSearch(value);
+        setFiler(null);
+    };
+
+    const handleResetData = () => {
+        updateData();
+    };
+
+    useEffect(() => {
+        updateData();
+    }, [updateData]);
 
     return (
         <div className={styles.page}>
@@ -37,9 +102,11 @@ export default function Home() {
             <div className={styles.page__content}>
                 <div className={styles.page__search}>
                     <SearchBar
-                        onChange={setSearch}
+                        value={search}
+                        onChange={handleSearch}
                         placeholder="Номер / Назва.."
                     />
+                    <Filter activeFilter={filer} onChange={handleFilter} />
                 </div>
                 <div className={styles.page__list}>
                     {data.map((song, i) => (
@@ -49,6 +116,14 @@ export default function Home() {
                             index={song.index}
                         />
                     ))}
+                    {filer === FilterEnum.random && (
+                        <button
+                            className={styles.resetBtn}
+                            onClick={handleResetData}
+                        >
+                            <ResetIcon />
+                        </button>
+                    )}
                 </div>
             </div>
         </div>

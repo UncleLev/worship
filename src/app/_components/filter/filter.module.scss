@@ -1,0 +1,21 @@
+@import '@/shared/styles/mixins.scss';
+
+.container {
+    padding: 7px 0;
+    display: grid;
+    border-bottom: 1px solid color(grey, 200);
+}
+
+.btn {
+    display: flex;
+    padding: 5px;
+    border: 1px solid color(grey, 500);
+    border-radius: 15px;
+    width: fit-content;
+    background: none;
+    outline: none;
+
+    &--selected {
+        background: color(grey);
+    }
+}

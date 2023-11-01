@@ -87,7 +87,7 @@ class Song {
     }
 }
 
-function compare(a: SongType, b: SongType) {
+function compare(a: Omit<SongType, "index">, b: Omit<SongType, "index">) {
     return a.title.localeCompare(b.title);
 }
 
@@ -102,7 +102,10 @@ async function main() {
     const data = songsArray
         .map((el) => new Song(el).parseSong())
         .sort(compare)
-        .map((song: SongType, i: number) => ({ ...song, index: i }));
+        .map((song: Omit<SongType, "index">, i: number) => ({
+            ...song,
+            index: i,
+        }));
 
     const songsPath = path.join(__dirname, "songs.json");
 
