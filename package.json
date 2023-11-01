@@ -11,13 +11,13 @@
     },
     "dependencies": {
         "@types/lodash": "^4.14.199",
-        "@types/node": "20.6.3",
+        "@types/node": "20.8.10",
         "@types/react": "18.2.22",
         "@types/react-dom": "18.2.7",
         "@types/react-modal": "^3.16.0",
         "classnames": "^2.3.2",
         "css-modules": "^0.3.0",
-        "eslint": "8.49.0",
+        "eslint": "8.52.0",
         "eslint-config-next": "13.5.2",
         "lodash": "^4.17.21",
         "next": "13.5.2",
@@ -26,8 +26,8 @@
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "react-modal": "^3.16.1",
-        "sass": "^1.68.0",
-        "tsx": "^3.13.0",
+        "sass": "^1.69.5",
+        "tsx": "^3.14.0",
         "typescript": "5.2.2"
     }
 }
