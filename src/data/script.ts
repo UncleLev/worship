@@ -16,10 +16,15 @@ const __dirname = dirname(__filename);
 const chordRx2 =
     /[A-H](b|#)?(maj|min|m|M|\+|-|dim|aug)?[0-9]*(sus)?[0-9]*(\/[A-H](b|#)?)?/;
 
+const SECTION_SEPARATOR = "@";
+const SONG_SEPARATOR = "________________";
+const DEFAULT_KEY_SEPARATOR = "!!";
+
 class Song {
     private fullText: string = "";
     private title: string = "";
     private key: string = "";
+    private defaultKey: string | null = null;
     private blocks: SongBlockType[] = [];
 
     constructor(fullText: string) {
@@ -27,8 +32,15 @@ class Song {
     }
 
     public parseSong() {
-        const splitData = this.fullText.split("@");
-        this.title = (splitData.at(0) as string).trim();
+        const splitData = this.fullText.split(SECTION_SEPARATOR);
+        const titleText = (splitData.at(0) as string).trim();
+        const [title, defaultKey] = titleText.split(DEFAULT_KEY_SEPARATOR);
+
+        this.title = title.trim();
+
+        if (defaultKey) {
+            this.defaultKey = defaultKey.trim();
+        }
 
         for (let i = 1; i < splitData.length; i++) {
             const el = splitData[i];
@@ -42,7 +54,7 @@ class Song {
 
         return {
             title: this.title,
-            key: this.key,
+            key: this.defaultKey || this.key,
             blocks: this.blocks,
         };
     }
@@ -65,10 +77,13 @@ class Song {
                     }
                 }
 
-                // TODO: tranform to setted key;
                 data.push({
                     type: BlockType.chords,
-                    text: transposeChordsString(el, this.key, this.key),
+                    text: transposeChordsString(
+                        el,
+                        this.key,
+                        this.defaultKey || this.key
+                    ),
                 });
             } else if (!str && nextStr && i !== 0) {
                 data.push({
@@ -96,9 +111,8 @@ async function main() {
     const songs = fs.readFileSync(filePath, {
         encoding: "utf-8",
     });
-    const songSeparator = "________________";
 
-    const songsArray = songs.split(songSeparator);
+    const songsArray = songs.split(SONG_SEPARATOR);
     const data = songsArray
         .map((el) => new Song(el).parseSong())
         .sort(compare)

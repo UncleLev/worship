@@ -3,7 +3,8 @@
 .search {
     display: flex;
     width: 100%;
-    padding: 10px 25px 10px 15px;
+    padding-inline: 25px 15px;
+    padding-block: 6px;
     align-items: center;
     gap: 20px;
     border-radius: 20px;
