@@ -17,3 +17,7 @@
 
     @return $shade;
 }
+
+@mixin backgroundGradient {
+    background: linear-gradient(90deg, rgb(47, 44, 104) 0%, rgb(182 104 104) 100%);
+}
