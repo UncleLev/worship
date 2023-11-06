@@ -33,7 +33,7 @@ const SongView = ({ className, song }: SongViewType) => {
         const hide = localStorage.getItem(hideKey) === "true";
         setHideChords(hide);
         setSelectedKey(song.key);
-    }, []);
+    }, [song.key]);
 
     return (
         <div className={cs(styles.song, className)}>
