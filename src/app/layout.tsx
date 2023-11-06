@@ -12,8 +12,10 @@ export const metadata: Metadata = {
     },
     description: "Міні пісеник",
     icons: {
-        icon: "/icons/favicon-32x32.png",
+        apple: "/icon.png",
+        icon: "/icon.png",
     },
+    themeColor: "#fff",
 };
 
 export default function RootLayout({
