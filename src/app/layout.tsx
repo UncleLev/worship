@@ -11,11 +11,7 @@ export const metadata: Metadata = {
         template: "%s | Worship",
     },
     description: "Міні пісеник",
-    icons: {
-        apple: "/icon.png",
-        icon: "/icon.png",
-    },
-    themeColor: "#fff",
+    icons: "./favicon-32x32.png",
 };
 
 export default function RootLayout({
@@ -25,7 +21,6 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            {/* <Meta /> */}
             <body className={inter.className}>{children}</body>
         </html>
     );
