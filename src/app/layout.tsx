@@ -10,7 +10,7 @@ export const metadata: Metadata = {
         template: "%s | Worship",
     },
     description: "Міні пісеник",
-    icons: "./favicon-32x32.png",
+    icons: "/favicon-32x32.png",
 };
 
 export default function RootLayout({
