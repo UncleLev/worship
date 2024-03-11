@@ -71,6 +71,7 @@
     right: 0;
     &__hide {
         display: grid;
+        cursor: pointer;
         place-items: center;
         outline: none;
         border-radius: 50%;

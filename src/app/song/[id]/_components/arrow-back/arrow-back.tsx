@@ -1,6 +1,9 @@
 "use client";
-import { LeftArrowIcon } from "@/shared/icons";
+import cs from "classnames";
 import { useRouter } from "next/navigation";
+import { LeftArrowIcon } from "@/shared/icons";
+
+import styles from "./arrow-back.module.scss";
 
 type ArrowBackType = {
     className?: string;
@@ -10,15 +13,11 @@ const ArrowBack = ({ className }: ArrowBackType) => {
     const navigation = useRouter();
 
     const handleGoBack = () => {
-        if (window.history.length === 1) {
-            navigation.push("/");
-        } else {
-            navigation.back();
-        }
+        navigation.push("/");
     };
 
     return (
-        <div className={className} onClick={handleGoBack}>
+        <div className={cs(styles.root, className)} onClick={handleGoBack}>
             <LeftArrowIcon />
         </div>
     );
