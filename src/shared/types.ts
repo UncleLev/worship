@@ -16,8 +16,8 @@ export type SongTextType = {
 };
 
 export enum BlockType {
-    chords = "chords",
-    text = "text",
+    chords = "CHORDS",
+    text = "TEXT",
 }
 
 export enum FilterEnum {

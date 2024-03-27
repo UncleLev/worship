@@ -1,7 +1,7 @@
 "use client";
 import cs from "classnames";
 import { useRouter } from "next/navigation";
-import { LeftArrowIcon } from "@/shared/icons";
+import { LeftArrowIcon } from "@/shared/ui/icons";
 
 import styles from "./arrow-back.module.scss";
 
@@ -9,7 +9,7 @@ type ArrowBackType = {
     className?: string;
 };
 
-const ArrowBack = ({ className }: ArrowBackType) => {
+export const ArrowBack = ({ className }: ArrowBackType) => {
     const navigation = useRouter();
 
     const handleGoBack = () => {
@@ -22,5 +22,3 @@ const ArrowBack = ({ className }: ArrowBackType) => {
         </div>
     );
 };
-
-export default ArrowBack;

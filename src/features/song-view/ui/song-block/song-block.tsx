@@ -2,7 +2,7 @@ import cs from "classnames";
 
 import { BlockType, SongBlockType } from "@/shared/types";
 
-import { transposeChordsString } from "@/utils/chord";
+import { transposeChordsString } from "@/shared/lib/chord";
 
 import styles from "./song-block.module.scss";
 

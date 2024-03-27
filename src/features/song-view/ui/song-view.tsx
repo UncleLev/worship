@@ -1,15 +1,12 @@
 "use client";
-import cs from "classnames";
 import { useLayoutEffect, useState } from "react";
-
-import SongBlock from "../song-block/song-block";
-import TonalitySelect from "../tonality-select/tonality-select";
-
-import { ChordIcon } from "@/shared/icons";
-
-import { SongType } from "@/shared/types";
-
 import styles from "./song-view.module.scss";
+import cs from "classnames";
+
+import { ChordIcon } from "@/shared/ui/icons";
+import { SongType } from "@/shared/types";
+import SongBlock from "./song-block/song-block";
+import TonalitySelect from "./tonality-select/tonality-select";
 
 type SongViewType = {
     className?: string;
@@ -18,7 +15,7 @@ type SongViewType = {
 
 const hideKey = "hide_chords";
 
-const SongView = ({ className, song }: SongViewType) => {
+export const SongView = ({ className, song }: SongViewType) => {
     const [hideChords, setHideChords] = useState(false);
     const [selectedKey, setSelectedKey] = useState(song.key);
 
@@ -73,5 +70,3 @@ const SongView = ({ className, song }: SongViewType) => {
         </div>
     );
 };
-
-export default SongView;

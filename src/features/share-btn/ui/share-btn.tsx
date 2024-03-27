@@ -2,7 +2,7 @@
 
 import cs from "classnames";
 
-import { ShareIcon } from "@/shared/icons";
+import { ShareIcon } from "@/shared/ui/icons";
 
 import styles from "./share-btn.module.scss";
 
@@ -11,7 +11,7 @@ type ShareBtnType = {
     title: string;
 };
 
-const ShareBtn = ({ className, title }: ShareBtnType) => {
+export const ShareBtn = ({ className, title }: ShareBtnType) => {
     const handleClick = () => {
         if (navigator.share) {
             navigator.share({
@@ -30,5 +30,3 @@ const ShareBtn = ({ className, title }: ShareBtnType) => {
         </button>
     );
 };
-
-export default ShareBtn;

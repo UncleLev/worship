@@ -3,7 +3,7 @@
 import cs from "classnames";
 import throttle from "lodash/throttle";
 
-import { SearchIcon } from "@/shared/icons";
+import { SearchIcon } from "@/shared/ui/icons";
 
 import styles from "./search-bar.module.scss";
 
@@ -14,7 +14,7 @@ type SearchBarType = {
     value: string;
 };
 
-const SearchBar = ({
+export const SearchBar = ({
     className,
     value,
     placeholder,
@@ -40,5 +40,3 @@ const SearchBar = ({
         </label>
     );
 };
-
-export default SearchBar;

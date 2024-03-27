@@ -6,7 +6,7 @@ import {
     SongTextType,
     SongType,
 } from "@/shared/types";
-import { formatChord, transposeChordsString } from "@/utils/chord";
+import { formatChord, transposeChordsString } from "@/shared/lib/chord";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 
@@ -56,6 +56,7 @@ class Song {
             title: this.title,
             key: this.defaultKey || this.key,
             blocks: this.blocks,
+            text: this.fullText
         };
     }
 

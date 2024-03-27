@@ -1,10 +1,8 @@
 import cs from "classnames";
-
-import { RandIcon } from "@/shared/icons";
-
-import { FilterEnum } from "@/shared/types";
-
 import styles from "./filter.module.scss";
+
+import { RandIcon } from "@/shared/ui/icons";
+import { FilterEnum } from "@/shared/types";
 
 type FilterType = {
     className?: string;
@@ -12,7 +10,7 @@ type FilterType = {
     activeFilter: FilterEnum | null;
 };
 
-const Filter = ({ className, onChange, activeFilter }: FilterType) => {
+export const Filter = ({ className, onChange, activeFilter }: FilterType) => {
     return (
         <div className={cs(styles.container, className)}>
             <button
@@ -28,5 +26,3 @@ const Filter = ({ className, onChange, activeFilter }: FilterType) => {
         </div>
     );
 };
-
-export default Filter;

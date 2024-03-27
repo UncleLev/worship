@@ -1,0 +1,65 @@
+@import '@/shared/styles/mixins.scss';
+
+.header {
+    width: 100%;
+
+    background: color(main);
+    display: flex;
+    padding: 20px 57px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    align-self: stretch;
+    border-radius: 0px 0px 30px 30px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    @include backgroundGradient;
+    &__title {
+        color: color(grey, 100);
+        font-size: 40px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 40px;
+    }
+}
+
+.page {
+    &__content {
+        display: block;
+        height: calc(100dvh - 80px);
+        @include laptop {
+            max-width: 670px;
+            margin: 0 auto;
+        }
+    }
+
+    &__search {
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        gap: 3px;
+    }
+    &__list {
+        display: grid;
+        gap: 10px;
+    }
+}
+
+.resetBtn {
+    display: flex;
+    background: none;
+    padding: 5px;
+    border-radius: 50%;
+    outline: none;
+    width: fit-content;
+    margin-inline: auto;
+    border: 1px solid color(grey);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    & > {
+        svg {
+            width: 30px;
+            height: 30px;
+        }
+    }
+}

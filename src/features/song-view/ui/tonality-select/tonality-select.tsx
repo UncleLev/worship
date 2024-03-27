@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import Modal from "react-modal";
 
-import { scale } from "@/utils/chord";
+import { scale } from "@/shared/lib/chord";
 
 import styles from "./tonality-select.module.scss";
 
