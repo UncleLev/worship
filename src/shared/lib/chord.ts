@@ -35,7 +35,7 @@ function transposeChord(chord: string, amount: number): string {
     });
 }
 
-export function toneDiff(originKey: string, transposeKey: string): number {
+function toneDiff(originKey: string, transposeKey: string): number {
     const orIndex = scale.findIndex(
         (value) => value === formatChord(originKey)
     );

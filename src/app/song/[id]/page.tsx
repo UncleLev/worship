@@ -5,7 +5,7 @@ import { SongType } from "@/shared/types";
 import { getFirstTextBlock } from "@/shared/lib/text";
 
 import data from "@/data/songs.json";
-import { SongPage } from "@/pages/song/ui/song.component";
+import { SongPage } from "@/pages/song";
 
 export async function generateStaticParams() {
     return data.map(({ index }) => ({
