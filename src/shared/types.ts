@@ -1,8 +1,10 @@
 export type SongType = {
+    id?: string;
     title: string;
-    key: string;
-    index: number;
+    tonalityKey: string;
+    index?: number;
     blocks: SongBlockType[];
+    rawText: string;
 };
 
 export type SongBlockType = {

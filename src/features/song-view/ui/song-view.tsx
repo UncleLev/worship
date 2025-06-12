@@ -17,7 +17,7 @@ const hideKey = "hide_chords";
 
 export const SongView = ({ className, song }: SongViewType) => {
     const [hideChords, setHideChords] = useState(false);
-    const [selectedKey, setSelectedKey] = useState(song.key);
+    const [selectedKey, setSelectedKey] = useState(song.tonalityKey);
 
     const handleHideChords = () => {
         setHideChords((state) => {
@@ -29,8 +29,8 @@ export const SongView = ({ className, song }: SongViewType) => {
     useLayoutEffect(() => {
         const hide = localStorage.getItem(hideKey) === "true";
         setHideChords(hide);
-        setSelectedKey(song.key);
-    }, [song.key]);
+        setSelectedKey(song.tonalityKey);
+    }, [song.tonalityKey]);
 
     return (
         <div className={cs(styles.song, className)}>
@@ -38,7 +38,7 @@ export const SongView = ({ className, song }: SongViewType) => {
                 <div className={styles.flowBtns}>
                     {!hideChords && (
                         <TonalitySelect
-                            originKey={song.key}
+                            originKey={song.tonalityKey}
                             transposeKey={selectedKey}
                             onKeyChange={setSelectedKey}
                         />
@@ -60,7 +60,7 @@ export const SongView = ({ className, song }: SongViewType) => {
                             <SongBlock
                                 block={block}
                                 hideChords={hideChords}
-                                originKey={song.key}
+                                originKey={song.tonalityKey}
                                 selectedKey={selectedKey}
                             />
                         )}
