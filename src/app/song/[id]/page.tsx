@@ -19,9 +19,9 @@ export async function generateStaticParams() {
 export async function generateMetadata({
     params,
 }: {
-    params: { id: string };
+    params: Promise<{ id: string }>;
 }): Promise<Metadata> {
-    const id = params.id;
+    const { id } = await params;
     const song = data[+id] as SongType;
 
     return {
@@ -30,13 +30,14 @@ export async function generateMetadata({
     };
 }
 
-export default function Song({ params }: { params: { id: string } }) {
-    const song = data[+params?.id];
+export default async function Song({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
+    const song = data[+id];
     return (
         <div className={""}>
             <div className={styles.header}>
                 <ArrowBack />
-                <span>№{+params?.id + 1}</span>
+                <span>№{+id + 1}</span>
                 <ShareBtn title={song.title} />
             </div>
             <div className={styles.songList__wrapper}>
