@@ -1,15 +1,15 @@
 import { Metadata } from "next/types";
 
-import { ArrowBack, ShareBtn, SongView } from "./_components";
+import { ArrowBack, ShareBtn, SongView } from "@/widgets/song-view";
 
 import styles from "./page.module.scss";
 
-import { SongType } from "@/shared/types";
+import { SongType } from "@/entities/song/model/types";
 
-import { getFirstTextBlock } from "@/utils/text";
+import { getFirstTextBlock } from "@/shared/lib/text";
 
-import { fetchSongs } from "@/data/supabase";
-import { parseSongRow } from "@/data/parser";
+import { fetchSongs } from "@/entities/song/api/supabase";
+import { parseSongRow } from "@/entities/song/lib/parser";
 
 export async function generateStaticParams() {
     const rows = await fetchSongs();
