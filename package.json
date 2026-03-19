@@ -7,9 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "songs": "npx tsx src/data/script.ts"
+    "songs": "npx tsx --env-file=.env.local src/data/script.ts"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.99.3",
     "classnames": "^2.3.2",
     "lodash": "^4.17.21",
     "next": "^15",

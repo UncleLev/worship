@@ -38,3 +38,7 @@ public/sw.js
 public/workbox-*
 .vscode/
 .idea/
+.backlog
+
+# generated song data
+src/data/songs.json
