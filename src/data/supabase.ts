@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 
-interface SongRow {
+export interface SongRow {
     name: string;
     key: string | null;
     lyrics: string;

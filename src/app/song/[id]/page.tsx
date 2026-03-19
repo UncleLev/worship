@@ -8,10 +8,12 @@ import { SongType } from "@/shared/types";
 
 import { getFirstTextBlock } from "@/utils/text";
 
-import data from "@/data/songs.json";
+import { fetchSongs } from "@/data/supabase";
+import { parseSongRow } from "@/data/parser";
 
 export async function generateStaticParams() {
-    return data.map(({ index }) => ({
+    const rows = await fetchSongs();
+    return rows.map((_, index) => ({
         id: String(index),
     }));
 }
@@ -22,7 +24,8 @@ export async function generateMetadata({
     params: Promise<{ id: string }>;
 }): Promise<Metadata> {
     const { id } = await params;
-    const song = data[+id] as SongType;
+    const rows = await fetchSongs();
+    const song = parseSongRow(rows[+id], +id);
 
     return {
         title: song.title,
@@ -32,7 +35,8 @@ export async function generateMetadata({
 
 export default async function Song({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    const song = data[+id];
+    const rows = await fetchSongs();
+    const song = parseSongRow(rows[+id], +id) as SongType;
     return (
         <div className={""}>
             <div className={styles.header}>
@@ -42,7 +46,7 @@ export default async function Song({ params }: { params: Promise<{ id: string }>
             </div>
             <div className={styles.songList__wrapper}>
                 <div className={styles.songList__container}>
-                    <SongView song={song as SongType} />
+                    <SongView song={song} />
                 </div>
             </div>
         </div>
