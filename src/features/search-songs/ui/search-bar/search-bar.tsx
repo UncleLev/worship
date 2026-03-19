@@ -31,6 +31,7 @@ const SearchBar = ({
         <label className={cs(styles.search, className)}>
             <SearchIcon />
             <input
+                suppressHydrationWarning
                 onChange={throttledOnChange}
                 className={styles.search__input}
                 type="search"

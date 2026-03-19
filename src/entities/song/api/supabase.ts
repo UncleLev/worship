@@ -1,6 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 
 export interface SongRow {
+    id: number;
     name: string;
     key: string | null;
     lyrics: string;
@@ -21,7 +22,7 @@ export async function fetchSongs(): Promise<SongRow[]> {
 
     const { data, error } = await supabase
         .from("songs")
-        .select("name, key, lyrics, sort_order")
+        .select("id, name, key, lyrics, sort_order")
         .order("sort_order", { ascending: true })
         .order("name", { ascending: true });
 

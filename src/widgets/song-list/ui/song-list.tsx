@@ -8,11 +8,11 @@ import { SongListItem } from "@/entities/song";
 
 import { ResetIcon } from "@/shared/ui/icons";
 
-import { SongType } from "@/entities/song/model/types";
+import supabase from "@/shared/lib/supabase-browser";
 
 import styles from "./song-list.module.scss";
 
-import songs from "@/entities/song/api/songs.json";
+type SongEntry = { name: string; index: number };
 
 const randomNumbArray = ({
     length,
@@ -31,45 +31,61 @@ const randomNumbArray = ({
     return result;
 };
 
-const findSongs = (input: string, filter: FilterEnum | null): SongType[] => {
+const findSongs = (
+    songs: SongEntry[],
+    input: string,
+    filter: FilterEnum | null
+): SongEntry[] => {
     if (filter === FilterEnum.random) {
         const randArr = randomNumbArray({
             length: 3,
             min: 0,
             max: songs.length - 1,
         });
-
-        return songs.filter((song) =>
-            randArr.includes(song.index)
-        ) as SongType[];
+        return songs.filter((_, i) => randArr.includes(i));
     }
 
-    if (!input) return songs as SongType[];
+    if (!input) return songs;
 
     if (!Number.isNaN(+input) && Number.isInteger(+input)) {
-        const song = songs[+input - 1];
-        const res = song ? [song] : ([] as SongType[]);
-        return res as SongType[];
+        const song = songs.find((s) => s.index + 1 === +input);
+        return song ? [song] : [];
     }
 
     if (input.trim()) {
         const rx = new RegExp(input.trim().toLowerCase());
-        return songs.filter((el) =>
-            rx.test(el.title.toLowerCase())
-        ) as SongType[];
+        return songs.filter((el) => rx.test(el.name.toLowerCase()));
     }
     return [];
 };
 
 export default function SongList() {
     const title = "Worship";
+    const [songs, setSongs] = useState<SongEntry[]>([]);
     const [search, setSearch] = useState("");
     const [filer, setFiler] = useState<FilterEnum | null>(null);
-    const [data, setData] = useState<SongType[]>(findSongs("", null));
+    const [data, setData] = useState<SongEntry[]>([]);
+
+    useEffect(() => {
+        supabase
+            .from("songs")
+            .select("name, sort_order")
+            .order("sort_order", { ascending: true })
+            .order("name", { ascending: true })
+            .then(({ data: rows }) => {
+                if (!rows) return;
+                const entries = rows.map((r) => ({
+                    name: r.name as string,
+                    index: (r.sort_order as number) - 1,
+                }));
+                setSongs(entries);
+                setData(entries);
+            });
+    }, []);
 
     const updateData = useCallback(
-        () => setData(findSongs(search, filer)),
-        [filer, search]
+        () => setData(findSongs(songs, search, filer)),
+        [songs, filer, search]
     );
 
     const handleFilter = (type: FilterEnum) => {
@@ -113,7 +129,7 @@ export default function SongList() {
                     {data.map((song, i) => (
                         <SongListItem
                             key={i}
-                            name={song.title}
+                            name={song.name}
                             index={song.index}
                         />
                     ))}

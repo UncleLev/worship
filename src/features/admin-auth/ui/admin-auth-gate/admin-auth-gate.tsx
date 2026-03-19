@@ -9,15 +9,10 @@ interface AdminAuthGateProps {
 }
 
 export default function AdminAuthGate({ children }: AdminAuthGateProps) {
-    const { state, signIn, signOut, error } = useAdminAuth();
+    const { state, signIn, error } = useAdminAuth();
 
     if (state === "loading") return null;
     if (state === "unauthenticated") return <SignInView onSignIn={signIn} error={error} />;
 
-    return (
-        <>
-            {children}
-            <button onClick={signOut}>Sign out</button>
-        </>
-    );
+    return <>{children}</>;
 }

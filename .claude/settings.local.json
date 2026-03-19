@@ -8,7 +8,8 @@
       "Bash(npx tsx:*)",
       "Bash(node --version)",
       "Bash(cp src/data/songs.json src/entities/song/api/songs.json)",
-      "Bash(cp src/data/songs.txt src/entities/song/api/songs.txt)"
+      "Bash(cp src/data/songs.txt src/entities/song/api/songs.txt)",
+      "Bash(git diff src/app/manage/edit/[id]/page.tsx)"
     ]
   }
 }
