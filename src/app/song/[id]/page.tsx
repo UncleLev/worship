@@ -1,17 +1,20 @@
 import { Metadata } from "next/types";
 
-import { ArrowBack, ShareBtn, SongView } from "./_components";
+import { ArrowBack, ShareBtn, SongView } from "@/widgets/song-view";
+import SongNotFound from "./_song-not-found";
 
 import styles from "./page.module.scss";
 
-import { SongType } from "@/shared/types";
+import { SongType } from "@/entities/song/model/types";
 
-import { getFirstTextBlock } from "@/utils/text";
+import { getFirstTextBlock } from "@/shared/lib/text";
 
-import data from "@/data/songs.json";
+import { fetchSongs } from "@/entities/song/api/supabase";
+import { parseSongRow } from "@/entities/song/lib/parser";
 
 export async function generateStaticParams() {
-    return data.map(({ index }) => ({
+    const rows = await fetchSongs();
+    return rows.map((_, index) => ({
         id: String(index),
     }));
 }
@@ -19,10 +22,12 @@ export async function generateStaticParams() {
 export async function generateMetadata({
     params,
 }: {
-    params: { id: string };
+    params: Promise<{ id: string }>;
 }): Promise<Metadata> {
-    const id = params.id;
-    const song = data[+id] as SongType;
+    const { id } = await params;
+    const rows = await fetchSongs();
+    if (!rows[+id]) return {};
+    const song = parseSongRow(rows[+id], +id);
 
     return {
         title: song.title,
@@ -30,18 +35,31 @@ export async function generateMetadata({
     };
 }
 
-export default function Song({ params }: { params: { id: string } }) {
-    const song = data[+params?.id];
+export default async function Song({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
+    const rows = await fetchSongs();
+
+    if (!rows[+id]) {
+        return (
+            <div className={styles.songList__wrapper}>
+                <div className={styles.songList__container}>
+                    <SongNotFound />
+                </div>
+            </div>
+        );
+    }
+
+    const song = parseSongRow(rows[+id], +id) as SongType;
     return (
         <div className={""}>
             <div className={styles.header}>
                 <ArrowBack />
-                <span>№{+params?.id + 1}</span>
+                <span>№{+id + 1}</span>
                 <ShareBtn title={song.title} />
             </div>
             <div className={styles.songList__wrapper}>
                 <div className={styles.songList__container}>
-                    <SongView song={song as SongType} />
+                    <SongView song={song} />
                 </div>
             </div>
         </div>

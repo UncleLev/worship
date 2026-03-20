@@ -1,0 +1,139 @@
+@use '@/shared/styles/mixins.scss' as *;
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    overflow: hidden;
+    @include laptop {
+        max-width: 670px;
+        margin: 0 auto;
+    }
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    flex-shrink: 0;
+    border-radius: 0 0 30px 30px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    @include backgroundGradient;
+
+    &__title {
+        font-size: 40px;
+        font-weight: 500;
+        line-height: 40px;
+        color: color(grey, 100);
+    }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    &__logout {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        cursor: pointer;
+        color: rgba(255, 255, 255, 0.85);
+        padding: 8px;
+        border-radius: 8px;
+        transition: color 0.15s, background 0.15s, border-color 0.15s;
+
+        &:hover {
+            color: color(grey, 100);
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+    }
+}
+
+.search {
+    padding: 10px;
+    flex-shrink: 0;
+}
+
+.list {
+    display: grid;
+    align-content: start;
+    flex: 1;
+    overflow-y: auto;
+    gap: 0;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 22px;
+    border-bottom: 1px solid color(grey, 200);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.1s;
+
+    &:hover {
+        background: color(grey, 200);
+    }
+
+    &__order {
+        flex-shrink: 0;
+        font-size: 16px;
+        color: color(grey);
+        min-width: 32px;
+        text-align: right;
+    }
+
+    &__name {
+        font-size: 20px;
+        font-weight: 400;
+        color: color(text);
+        line-height: 27px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+    }
+}
+
+.fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    @include backgroundGradient;
+    color: color(grey, 100);
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.15s;
+    line-height: 1;
+
+    &:hover {
+        opacity: 0.85;
+    }
+}
+
+.loading {
+    padding: 16px;
+    text-align: center;
+    color: color(grey);
+    font-size: 16px;
+}
+
+.error {
+    padding: 16px;
+    color: red;
+    font-size: 14px;
+}

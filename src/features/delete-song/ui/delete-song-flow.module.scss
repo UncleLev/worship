@@ -1,0 +1,95 @@
+.deleteBtn {
+    background: none;
+    border: 1px solid #c0392b;
+    color: #c0392b;
+    padding: 8px 24px;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+
+    &:hover {
+        background: #c0392b;
+        color: #fff;
+    }
+}
+
+.dialog {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    &__text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #333;
+        margin: 0;
+    }
+
+    &__error {
+        font-size: 13px;
+        color: #c0392b;
+        margin: 0;
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    &__cancel {
+        padding: 8px 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background: none;
+        font-size: 15px;
+        cursor: pointer;
+        color: #555;
+        transition: background 0.15s;
+
+        &:hover:not(:disabled) {
+            background: #f0f0f0;
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    &__confirm {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 8px;
+        background: #4a7fc1;
+        font-size: 15px;
+        cursor: pointer;
+        color: #fff;
+        transition: opacity 0.15s;
+
+        &:hover {
+            opacity: 0.85;
+        }
+    }
+
+    &__confirmDelete {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 8px;
+        background: #c0392b;
+        font-size: 15px;
+        cursor: pointer;
+        color: #fff;
+        transition: opacity 0.15s;
+
+        &:hover:not(:disabled) {
+            opacity: 0.85;
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+}
