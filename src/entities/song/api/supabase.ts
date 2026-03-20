@@ -36,3 +36,26 @@ export async function fetchSongs(): Promise<SongRow[]> {
 
     return data as SongRow[];
 }
+
+export async function fetchSongById(id: number): Promise<SongRow | null> {
+    const url = process.env.SUPABASE_URL;
+    const key = process.env.SUPABASE_PUBLISHABLE_DEFAULT_KEY;
+
+    if (!url || !key) {
+        throw new Error(
+            "Missing SUPABASE_URL or SUPABASE_PUBLISHABLE_DEFAULT_KEY environment variables"
+        );
+    }
+
+    const supabase = createClient(url, key);
+
+    const { data, error } = await supabase
+        .from("songs")
+        .select("id, name, key, lyrics, sort_order")
+        .eq("id", id)
+        .single();
+
+    if (error) return null;
+
+    return data as SongRow;
+}

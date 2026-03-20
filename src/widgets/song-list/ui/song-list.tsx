@@ -110,20 +110,19 @@ export default function SongList() {
 
     useEffect(() => {
         supabase
-            .from("songs")
-            .select("id, name, sort_order")
-            .order("sort_order", { ascending: true })
-            .order("name", { ascending: true })
-            .then(({ data: rows }) => {
-                if (!rows) return;
-                const entries = rows.map((r, i) => ({
-                    name: r.name as string,
-                    id: r.id as number,
-                    num: i + 1,
-                }));
-                setSongs(entries);
-                setData(entries);
-            });
+          .from("songs")
+          .select("id, name, sort_order")
+          .order("name", { ascending: true })
+          .then(({ data: rows }) => {
+            if (!rows) return;
+            const entries = rows.map((r, i) => ({
+              name: r.name as string,
+              id: r.id as number,
+              num: r.sort_order as number,
+            }));
+            setSongs(entries);
+            setData(entries);
+          });
     }, []);
 
     const updateData = useCallback(

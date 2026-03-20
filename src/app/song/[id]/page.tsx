@@ -9,13 +9,13 @@ import { SongType } from "@/entities/song/model/types";
 
 import { getFirstTextBlock } from "@/shared/lib/text";
 
-import { fetchSongs } from "@/entities/song/api/supabase";
+import { fetchSongs, fetchSongById } from "@/entities/song/api/supabase";
 import { parseSongRow } from "@/entities/song/lib/parser";
 
 export async function generateStaticParams() {
     const rows = await fetchSongs();
-    return rows.map((_, index) => ({
-        id: String(index),
+    return rows.map((row) => ({
+        id: String(row.id),
     }));
 }
 
@@ -25,9 +25,9 @@ export async function generateMetadata({
     params: Promise<{ id: string }>;
 }): Promise<Metadata> {
     const { id } = await params;
-    const rows = await fetchSongs();
-    if (!rows[+id]) return {};
-    const song = parseSongRow(rows[+id], +id);
+    const row = await fetchSongById(+id);
+    if (!row) return {};
+    const song = parseSongRow(row, row.sort_order);
 
     return {
         title: song.title,
@@ -37,9 +37,9 @@ export async function generateMetadata({
 
 export default async function Song({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    const rows = await fetchSongs();
+    const row = await fetchSongById(+id);
 
-    if (!rows[+id]) {
+    if (!row) {
         return (
             <div className={styles.songList__wrapper}>
                 <div className={styles.songList__container}>
@@ -49,12 +49,12 @@ export default async function Song({ params }: { params: Promise<{ id: string }>
         );
     }
 
-    const song = parseSongRow(rows[+id], +id) as SongType;
+    const song = parseSongRow(row, row.sort_order) as SongType;
     return (
         <div className={""}>
             <div className={styles.header}>
                 <ArrowBack />
-                <span>№{+id + 1}</span>
+                <span>№{row.sort_order}</span>
                 <ShareBtn title={song.title} />
             </div>
             <div className={styles.songList__wrapper}>

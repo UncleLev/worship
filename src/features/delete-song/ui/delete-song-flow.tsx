@@ -5,6 +5,7 @@ import Modal from "react-modal";
 import { useRouter } from "next/navigation";
 
 import supabase from "@/shared/lib/supabase-browser";
+import { reorderSongsAlphabetically } from "@/entities/song/api/reorder-songs";
 
 import styles from "./delete-song-flow.module.scss";
 
@@ -52,6 +53,7 @@ export default function DeleteSongFlow({ songId, redirectTo = "/manage" }: Props
             return;
         }
 
+        await reorderSongsAlphabetically();
         router.push(redirectTo);
     }, [songId, redirectTo, router]);
 
