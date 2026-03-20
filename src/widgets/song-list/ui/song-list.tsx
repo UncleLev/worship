@@ -14,7 +14,7 @@ import supabase from "@/shared/lib/supabase-browser";
 
 import styles from "./song-list.module.scss";
 
-type SongEntry = { name: string; index: number };
+type SongEntry = { name: string; id: number; num: number };
 
 const randomNumbArray = ({
     length,
@@ -50,7 +50,7 @@ const findSongs = (
     if (!input) return songs;
 
     if (!Number.isNaN(+input) && Number.isInteger(+input)) {
-        const song = songs.find((s) => s.index + 1 === +input);
+        const song = songs.find((s) => s.num === +input);
         return song ? [song] : [];
     }
 
@@ -111,14 +111,15 @@ export default function SongList() {
     useEffect(() => {
         supabase
             .from("songs")
-            .select("name, sort_order")
+            .select("id, name, sort_order")
             .order("sort_order", { ascending: true })
             .order("name", { ascending: true })
             .then(({ data: rows }) => {
                 if (!rows) return;
                 const entries = rows.map((r, i) => ({
                     name: r.name as string,
-                    index: i,
+                    id: r.id as number,
+                    num: i + 1,
                 }));
                 setSongs(entries);
                 setData(entries);
@@ -174,11 +175,12 @@ export default function SongList() {
                     <Filter activeFilter={filer} onChange={handleFilter} />
                 </div>
                 <div className={styles.page__list}>
-                    {data.map((song, i) => (
+                    {data.map((song) => (
                         <SongListItem
-                            key={i}
+                            key={song.id}
                             name={song.name}
-                            index={song.index}
+                            id={song.id}
+                            num={song.num}
                         />
                     ))}
                     {filer === FilterEnum.random && (

@@ -9,14 +9,15 @@ import styles from "./song-list-item.module.scss";
 type SongListItemType = {
     className?: string;
     name: string;
-    index: number;
+    id: number;
+    num: number;
 };
 
-const SongListItem = ({ className, index, name }: SongListItemType) => {
+const SongListItem = ({ className, id, name, num }: SongListItemType) => {
     return (
-        <Link className={cs(styles.item, className)} href={`/song/${index}`}>
+        <Link className={cs(styles.item, className)} href={`/song/${id}`}>
             <span className={styles.item__name}>
-                {`${index + 1}. ${name}`}
+                {`${num}. ${name}`}
             </span>
             <RightArrowIcon />
         </Link>
