@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Modal from "react-modal";
 
 import { parseSongRow } from "@/entities/song/lib/parser";
@@ -14,7 +15,7 @@ import styles from "./edit-song-view.module.scss";
 Modal.setAppElement("body");
 
 type Props = {
-    id: number;
+    id?: number;
 };
 
 function InfoIcon() {
@@ -47,20 +48,26 @@ const modalStyle = {
 };
 
 export default function EditSongView({ id }: Props) {
+    const isAdd = id === undefined;
+    const router = useRouter();
+
     const [title, setTitle] = useState("");
     const [key, setKey] = useState("");
     const [content, setContent] = useState("");
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(!isAdd);
     const [isSaving, setIsSaving] = useState(false);
     const [isDirty, setIsDirty] = useState(false);
     const [mobileTab, setMobileTab] = useState<"edit" | "preview">("edit");
     const [showSaveDialog, setShowSaveDialog] = useState(false);
     const [showInfoModal, setShowInfoModal] = useState(false);
+    const [titleError, setTitleError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [saveError, setSaveError] = useState<string | null>(null);
     const [fetchError, setFetchError] = useState<string | null>(null);
 
     useEffect(() => {
+        if (isAdd) return;
+
         async function fetchSong() {
             setIsLoading(true);
             const { data, error } = await supabase
@@ -87,7 +94,7 @@ export default function EditSongView({ id }: Props) {
         }
 
         fetchSong();
-    }, [id]);
+    }, [id, isAdd]);
 
     useEffect(() => {
         const handler = (e: BeforeUnloadEvent) => {
@@ -101,7 +108,7 @@ export default function EditSongView({ id }: Props) {
         if (!content && !title) return null;
         try {
             return parseSongRow(
-                { name: title, key: key || null, lyrics: content, sort_order: id },
+                { name: title, key: key || null, lyrics: content, sort_order: id ?? 0 },
                 0
             );
         } catch {
@@ -119,6 +126,13 @@ export default function EditSongView({ id }: Props) {
         []
     );
 
+    const handleTitleChange = useCallback((value: string) => {
+        setTitle(value);
+        setTitleError(null);
+        setIsDirty(true);
+        setSuccessMessage(null);
+    }, []);
+
     const handleSaveConfirm = useCallback(async () => {
         setIsSaving(true);
         setSaveError(null);
@@ -126,7 +140,7 @@ export default function EditSongView({ id }: Props) {
         const { error } = await supabase
             .from("songs")
             .update({ name: title, key: key || null, lyrics: content })
-            .eq("id", id);
+            .eq("id", id!);
 
         setIsSaving(false);
         setShowSaveDialog(false);
@@ -138,6 +152,55 @@ export default function EditSongView({ id }: Props) {
             setSuccessMessage("Пісню збережено успішно");
         }
     }, [title, key, content, id]);
+
+    const handleAddSave = useCallback(async () => {
+        setIsSaving(true);
+        setSaveError(null);
+        setTitleError(null);
+
+        // Check title uniqueness (case-insensitive)
+        const { data: existing } = await supabase
+            .from("songs")
+            .select("id")
+            .ilike("name", title.trim())
+            .maybeSingle();
+
+        if (existing) {
+            setTitleError("Пісня з такою назвою вже існує");
+            setIsSaving(false);
+            return;
+        }
+
+        // Insert new song
+        const { data: newSong, error: insertError } = await supabase
+            .from("songs")
+            .insert({ name: title.trim(), key: key || null, lyrics: content, sort_order: 0 })
+            .select("id")
+            .single();
+
+        if (insertError || !newSong) {
+            setSaveError(insertError?.message ?? "Помилка збереження");
+            setIsSaving(false);
+            return;
+        }
+
+        // Recalculate sort_order alphabetically
+        const { data: allSongs, error: fetchError } = await supabase
+            .from("songs")
+            .select("id, name");
+
+        if (!fetchError && allSongs) {
+            const sorted = [...allSongs].sort((a, b) =>
+                a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
+            );
+            await supabase
+                .from("songs")
+                .upsert(sorted.map((s, i) => ({ id: s.id, sort_order: i + 1 })));
+        }
+
+        setIsDirty(false);
+        router.push(`/manage/edit/${newSong.id}`);
+    }, [title, key, content, router]);
 
     if (isLoading) {
         return <div className={styles.loading}>Завантаження...</div>;
@@ -153,13 +216,15 @@ export default function EditSongView({ id }: Props) {
                 <Link href="/manage" className={styles.header__back} aria-label="Назад">
                     ←
                 </Link>
-                <span className={styles.header__title}>Редагування</span>
+                <span className={styles.header__title}>
+                    {isAdd ? "Додавання" : "Редагування"}
+                </span>
                 <button
                     className={styles.header__save}
-                    onClick={() => setShowSaveDialog(true)}
+                    onClick={isAdd ? handleAddSave : () => setShowSaveDialog(true)}
                     disabled={isSaving || !title.trim() || !content.trim()}
                 >
-                    Зберегти
+                    {isSaving ? "Збереження..." : "Зберегти"}
                 </button>
             </header>
 
@@ -196,8 +261,11 @@ export default function EditSongView({ id }: Props) {
                             className={styles.field__input}
                             type="text"
                             value={title}
-                            onChange={(e) => handleFieldChange(setTitle)(e.target.value)}
+                            onChange={(e) => handleTitleChange(e.target.value)}
                         />
+                        {titleError && (
+                            <span className={styles.field__error}>{titleError}</span>
+                        )}
                     </div>
 
                     <div className={styles.field}>
@@ -250,33 +318,35 @@ export default function EditSongView({ id }: Props) {
                 </div>
             </div>
 
-            {/* Save confirmation dialog */}
-            <Modal
-                isOpen={showSaveDialog}
-                onRequestClose={() => setShowSaveDialog(false)}
-                style={modalStyle}
-                contentLabel="Підтвердити збереження"
-            >
-                <div className={styles.dialog}>
-                    <p className={styles.dialog__text}>Зберегти зміни?</p>
-                    <div className={styles.dialog__actions}>
-                        <button
-                            className={styles.dialog__cancel}
-                            onClick={() => setShowSaveDialog(false)}
-                            disabled={isSaving}
-                        >
-                            Скасувати
-                        </button>
-                        <button
-                            className={styles.dialog__confirm}
-                            onClick={handleSaveConfirm}
-                            disabled={isSaving}
-                        >
-                            {isSaving ? "Збереження..." : "Зберегти"}
-                        </button>
+            {/* Save confirmation dialog (edit mode only) */}
+            {!isAdd && (
+                <Modal
+                    isOpen={showSaveDialog}
+                    onRequestClose={() => setShowSaveDialog(false)}
+                    style={modalStyle}
+                    contentLabel="Підтвердити збереження"
+                >
+                    <div className={styles.dialog}>
+                        <p className={styles.dialog__text}>Зберегти зміни?</p>
+                        <div className={styles.dialog__actions}>
+                            <button
+                                className={styles.dialog__cancel}
+                                onClick={() => setShowSaveDialog(false)}
+                                disabled={isSaving}
+                            >
+                                Скасувати
+                            </button>
+                            <button
+                                className={styles.dialog__confirm}
+                                onClick={handleSaveConfirm}
+                                disabled={isSaving}
+                            >
+                                {isSaving ? "Збереження..." : "Зберегти"}
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </Modal>
+                </Modal>
+            )}
 
             {/* Format info modal */}
             <Modal

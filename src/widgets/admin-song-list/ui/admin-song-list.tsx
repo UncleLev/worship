@@ -146,6 +146,9 @@ export default function AdminSongList() {
                 )}
             </div>
             <div ref={sentinelRef} />
+            <Link href="/manage/add" className={styles.fab} aria-label="Додати пісню">
+                +
+            </Link>
         </div>
     );
 }

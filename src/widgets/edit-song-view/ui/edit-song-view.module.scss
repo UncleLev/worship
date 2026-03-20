@@ -232,6 +232,11 @@
         }
     }
 
+    &__error {
+        font-size: 13px;
+        color: #c0392b;
+    }
+
     &--grow {
         flex: 1;
         min-height: 0;

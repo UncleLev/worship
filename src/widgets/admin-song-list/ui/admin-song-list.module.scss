@@ -95,6 +95,29 @@
     }
 }
 
+.fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    @include backgroundGradient;
+    color: color(grey, 100);
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.15s;
+    line-height: 1;
+
+    &:hover {
+        opacity: 0.85;
+    }
+}
+
 .loading {
     padding: 16px;
     text-align: center;
