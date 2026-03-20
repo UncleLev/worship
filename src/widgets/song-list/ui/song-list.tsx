@@ -1,6 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+
+import { useRouter } from "next/navigation";
 
 import { SearchBar } from "@/features/search-songs";
 import { Filter, FilterEnum } from "@/features/filter-songs";
@@ -66,6 +68,46 @@ export default function SongList() {
     const [filer, setFiler] = useState<FilterEnum | null>(null);
     const [data, setData] = useState<SongEntry[]>([]);
 
+    const router = useRouter();
+    const PATTERN = ["-", ".", ".", ".", "-"];
+    const LONG_PRESS_MS = 400;
+    const RESET_TIMEOUT_MS = 3000;
+    const pressStartRef = useRef<number>(0);
+    const sequenceRef = useRef<string[]>([]);
+    const resetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    useEffect(() => {
+        return () => {
+            if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
+        };
+    }, []);
+
+    const handleTitlePointerDown = () => {
+        pressStartRef.current = Date.now();
+    };
+
+    const handleTitlePointerUp = () => {
+        const duration = Date.now() - pressStartRef.current;
+        const symbol = duration >= LONG_PRESS_MS ? "-" : ".";
+
+        if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
+        resetTimerRef.current = setTimeout(() => {
+            sequenceRef.current = [];
+        }, RESET_TIMEOUT_MS);
+
+        sequenceRef.current = [...sequenceRef.current, symbol];
+        console.log(`[pattern] ${sequenceRef.current.join(" ")}`);
+
+        if (sequenceRef.current.length >= PATTERN.length) {
+            const tail = sequenceRef.current.slice(-PATTERN.length);
+            if (tail.join("") === PATTERN.join("")) {
+                sequenceRef.current = [];
+                if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
+                router.push("/manage");
+            }
+        }
+    };
+
     useEffect(() => {
         supabase
             .from("songs")
@@ -114,7 +156,13 @@ export default function SongList() {
     return (
         <div className={styles.page}>
             <div className={styles.header}>
-                <h2 className={styles.header__title}>{title}</h2>
+                <h2
+                    className={styles.header__title}
+                    onPointerDown={handleTitlePointerDown}
+                    onPointerUp={handleTitlePointerUp}
+                >
+                    {title}
+                </h2>
             </div>
             <div className={styles.page__content}>
                 <div className={styles.page__search}>

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { useAdminAuth } from "@/features/admin-auth";
 import { SearchBar } from "@/features/search-songs";
@@ -30,6 +31,12 @@ function LogoutIcon() {
 
 export default function AdminSongList() {
     const { signOut } = useAdminAuth();
+    const router = useRouter();
+
+    const handleSignOut = useCallback(async () => {
+        await signOut();
+        router.push("/");
+    }, [signOut, router]);
     const [songs, setSongs] = useState<SongRow[]>([]);
     const [search, setSearch] = useState("");
     const [from, setFrom] = useState(0);
@@ -121,7 +128,7 @@ export default function AdminSongList() {
                 <span className={styles.header__title}>Адмін</span>
                 <div className={styles.header__actions}>
                     <TriggerDeployButton />
-                    <button className={styles.header__logout} onClick={signOut} aria-label="Вийти">
+                    <button className={styles.header__logout} onClick={handleSignOut} aria-label="Вийти">
                         <LogoutIcon />
                     </button>
                 </div>
