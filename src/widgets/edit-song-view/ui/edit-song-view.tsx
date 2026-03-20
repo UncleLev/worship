@@ -54,7 +54,7 @@ const modalStyle = {
         width: "90vw",
     },
     overlay: {
-        position: "fixed",
+        position: "fixed" as const,
         backgroundColor: "rgb(65 65 65 / 75%)",
         zIndex: 1000,
     },
@@ -121,7 +121,7 @@ export default function EditSongView({ id }: Props) {
         if (!content && !title) return null;
         try {
             return parseSongRow(
-                { name: title, key: key || null, lyrics: content, sort_order: id ?? 0 },
+                { id: id ?? 0, name: title, key: key || null, lyrics: content, sort_order: id ?? 0 },
                 0
             );
         } catch {
