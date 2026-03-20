@@ -7,6 +7,7 @@ import Modal from "react-modal";
 
 import { parseSongRow } from "@/entities/song/lib/parser";
 import { SongView } from "@/widgets/song-view";
+import { DeleteSongFlow } from "@/features/delete-song";
 import { scale } from "@/shared/lib/chord";
 import supabase from "@/shared/lib/supabase-browser";
 
@@ -317,6 +318,12 @@ export default function EditSongView({ id }: Props) {
                     )}
                 </div>
             </div>
+
+            {!isAdd && (
+                <div className={styles.dangerZone}>
+                    <DeleteSongFlow songId={id!} />
+                </div>
+            )}
 
             {/* Save confirmation dialog (edit mode only) */}
             {!isAdd && (

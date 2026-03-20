@@ -1,6 +1,7 @@
 import { Metadata } from "next/types";
 
 import { ArrowBack, ShareBtn, SongView } from "@/widgets/song-view";
+import SongNotFound from "./_song-not-found";
 
 import styles from "./page.module.scss";
 
@@ -25,6 +26,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
     const { id } = await params;
     const rows = await fetchSongs();
+    if (!rows[+id]) return {};
     const song = parseSongRow(rows[+id], +id);
 
     return {
@@ -36,6 +38,17 @@ export async function generateMetadata({
 export default async function Song({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
     const rows = await fetchSongs();
+
+    if (!rows[+id]) {
+        return (
+            <div className={styles.songList__wrapper}>
+                <div className={styles.songList__container}>
+                    <SongNotFound />
+                </div>
+            </div>
+        );
+    }
+
     const song = parseSongRow(rows[+id], +id) as SongType;
     return (
         <div className={""}>

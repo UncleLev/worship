@@ -74,9 +74,9 @@ export default function SongList() {
             .order("name", { ascending: true })
             .then(({ data: rows }) => {
                 if (!rows) return;
-                const entries = rows.map((r) => ({
+                const entries = rows.map((r, i) => ({
                     name: r.name as string,
-                    index: (r.sort_order as number) - 1,
+                    index: i,
                 }));
                 setSongs(entries);
                 setData(entries);
