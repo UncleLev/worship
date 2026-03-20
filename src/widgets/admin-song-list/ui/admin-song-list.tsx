@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useAdminAuth } from "@/features/admin-auth";
 import { SearchBar } from "@/features/search-songs";
+import { TriggerDeployButton } from "@/features/trigger-deploy";
 import supabase from "@/shared/lib/supabase-browser";
 
 import styles from "./admin-song-list.module.scss";
@@ -118,9 +119,12 @@ export default function AdminSongList() {
         <div className={styles.container}>
             <header className={styles.header}>
                 <span className={styles.header__title}>Адмін</span>
-                <button className={styles.header__logout} onClick={signOut} aria-label="Вийти">
-                    <LogoutIcon />
-                </button>
+                <div className={styles.header__actions}>
+                    <TriggerDeployButton />
+                    <button className={styles.header__logout} onClick={signOut} aria-label="Вийти">
+                        <LogoutIcon />
+                    </button>
+                </div>
             </header>
             <div className={styles.search}>
                 <SearchBar

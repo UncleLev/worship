@@ -1,17 +1,23 @@
-@use '@/shared/styles/mixins.scss' as *;
-
 .btn {
-    background: transparent;
-    outline: none;
-    color: color(grey, 200);
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.85);
+    border-radius: 8px;
     padding: 8px;
-    background: color(grey, 900);
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    & > svg{
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+
+    & > svg {
         width: 35px;
         height: 35px;
+    }
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.25);
+        border-color: rgba(255, 255, 255, 0.4);
+        color: #fff;
     }
 }
