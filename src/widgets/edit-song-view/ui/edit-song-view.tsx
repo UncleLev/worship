@@ -11,6 +11,8 @@ import { DeleteSongFlow } from "@/features/delete-song";
 import { scale } from "@/shared/lib/chord";
 import supabase from "@/shared/lib/supabase-browser";
 
+import { LeftArrowIcon } from "@/shared/ui/icons";
+
 import styles from "./edit-song-view.module.scss";
 
 Modal.setAppElement("body");
@@ -18,6 +20,16 @@ Modal.setAppElement("body");
 type Props = {
     id?: number;
 };
+
+function SaveIcon() {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+            <polyline points="17 21 17 13 7 13 7 21" />
+            <polyline points="7 3 7 8 15 8" />
+        </svg>
+    );
+}
 
 function InfoIcon() {
     return (
@@ -196,7 +208,7 @@ export default function EditSongView({ id }: Props) {
             );
             await supabase
                 .from("songs")
-                .upsert(sorted.map((s, i) => ({ id: s.id, sort_order: i + 1 })));
+                .upsert(sorted.map((s, i) => ({ id: s.id, sort_order: i + 1 })), { onConflict: 'id' });
         }
 
         setIsDirty(false);
@@ -215,7 +227,7 @@ export default function EditSongView({ id }: Props) {
         <div className={styles.container}>
             <header className={styles.header}>
                 <Link href="/manage" className={styles.header__back} aria-label="Назад">
-                    ←
+                    <LeftArrowIcon />
                 </Link>
                 <span className={styles.header__title}>
                     {isAdd ? "Додавання" : "Редагування"}
@@ -224,8 +236,9 @@ export default function EditSongView({ id }: Props) {
                     className={styles.header__save}
                     onClick={isAdd ? handleAddSave : () => setShowSaveDialog(true)}
                     disabled={isSaving || !title.trim() || !content.trim()}
+                    aria-label={isSaving ? "Збереження..." : "Зберегти"}
                 >
-                    {isSaving ? "Збереження..." : "Зберегти"}
+                    <SaveIcon />
                 </button>
             </header>
 
