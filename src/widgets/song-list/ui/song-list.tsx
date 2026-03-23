@@ -203,7 +203,7 @@ export default function SongList() {
                     />
                     <Filter activeFilter={filer} onChange={handleFilter} />
                 </div>
-                <div className={styles.page__list} onClick={handleSaveScroll}>
+                <div className={styles.page__list} onClickCapture={handleSaveScroll}>
                     {data.map((song) => (
                         <SongListItem
                             key={song.id}
