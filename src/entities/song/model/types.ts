@@ -1,3 +1,5 @@
+export type SongEntry = { name: string; id: number; num: number };
+
 export type SongType = {
     title: string;
     key: string;
