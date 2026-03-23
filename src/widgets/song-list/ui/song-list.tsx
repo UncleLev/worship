@@ -109,6 +109,19 @@ export default function SongList() {
     };
 
     useEffect(() => {
+        const CACHE_KEY = "songs_cache";
+
+        // Load from cache first for instant render
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (cached) {
+            try {
+                const { songs: cachedSongs } = JSON.parse(cached);
+                setSongs(cachedSongs);
+                setData(cachedSongs);
+            } catch {}
+        }
+
+        // Fetch fresh data in background
         supabase
           .from("songs")
           .select("id, name, sort_order")
@@ -122,6 +135,10 @@ export default function SongList() {
             }));
             setSongs(entries);
             setData(entries);
+            localStorage.setItem(
+                CACHE_KEY,
+                JSON.stringify({ songs: entries, updatedAt: Date.now() })
+            );
           });
     }, []);
 
