@@ -17,211 +17,217 @@ import styles from "./song-list.module.scss";
 type SongEntry = { name: string; id: number; num: number };
 
 const randomNumbArray = ({
-    length,
-    max,
-    min = 0,
+  length,
+  max,
+  min = 0,
 }: {
-    length: number;
-    max: number;
-    min: number;
+  length: number;
+  max: number;
+  min: number;
 }) => {
-    const result: number[] = [];
-    while (result.length !== length) {
-        const randNum = Math.floor(Math.random() * (max - min + 1)) + min;
-        if (!result.includes(randNum)) result.push(randNum);
-    }
-    return result;
+  const result: number[] = [];
+  while (result.length !== length) {
+    const randNum = Math.floor(Math.random() * (max - min + 1)) + min;
+    if (!result.includes(randNum)) result.push(randNum);
+  }
+  return result;
 };
 
 const findSongs = (
-    songs: SongEntry[],
-    input: string,
-    filter: FilterEnum | null
+  songs: SongEntry[],
+  input: string,
+  filter: FilterEnum | null,
 ): SongEntry[] => {
-    if (filter === FilterEnum.random) {
-        const randArr = randomNumbArray({
-            length: 3,
-            min: 0,
-            max: songs.length - 1,
-        });
-        return songs.filter((_, i) => randArr.includes(i));
-    }
+  if (filter === FilterEnum.random) {
+    const randArr = randomNumbArray({
+      length: 3,
+      min: 0,
+      max: songs.length - 1,
+    });
+    return songs.filter((_, i) => randArr.includes(i));
+  }
 
-    if (!input) return songs;
+  if (!input) return songs;
 
-    if (!Number.isNaN(+input) && Number.isInteger(+input)) {
-        const song = songs.find((s) => s.num === +input);
-        return song ? [song] : [];
-    }
+  if (!Number.isNaN(+input) && Number.isInteger(+input)) {
+    const song = songs.find((s) => s.num === +input);
+    return song ? [song] : [];
+  }
 
-    if (input.trim()) {
-        const rx = new RegExp(input.trim().toLowerCase());
-        return songs.filter((el) => rx.test(el.name.toLowerCase()));
-    }
-    return [];
+  if (input.trim()) {
+    const rx = new RegExp(input.trim().toLowerCase());
+    return songs.filter((el) => rx.test(el.name.toLowerCase()));
+  }
+  return [];
 };
 
 export default function SongList() {
-    const title = "Worship";
-    const [songs, setSongs] = useState<SongEntry[]>([]);
-    const [search, setSearch] = useState("");
-    const [filer, setFiler] = useState<FilterEnum | null>(null);
-    const [data, setData] = useState<SongEntry[]>([]);
+  const title = "Worship";
+  const [songs, setSongs] = useState<SongEntry[]>([]);
+  const [search, setSearch] = useState("");
+  const [filer, setFiler] = useState<FilterEnum | null>(null);
+  const [data, setData] = useState<SongEntry[]>([]);
 
-    const router = useRouter();
-    const PATTERN = ["-", ".", ".", ".", "-"];
-    const LONG_PRESS_MS = 400;
-    const RESET_TIMEOUT_MS = 3000;
-    const pressStartRef = useRef<number>(0);
-    const sequenceRef = useRef<string[]>([]);
-    const resetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const router = useRouter();
+  const PATTERN = ["-", ".", ".", ".", "-"];
+  const LONG_PRESS_MS = 400;
+  const RESET_TIMEOUT_MS = 3000;
+  const pressStartRef = useRef<number>(0);
+  const sequenceRef = useRef<string[]>([]);
+  const resetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const listRef = useRef<any | null>(null);
 
-    useEffect(() => {
-        return () => {
-            if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
-        };
-    }, []);
-
-    const handleTitlePointerDown = () => {
-        pressStartRef.current = Date.now();
+  useEffect(() => {
+    return () => {
+      if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
     };
+  }, []);
 
-    const handleTitlePointerUp = () => {
-        const duration = Date.now() - pressStartRef.current;
-        const symbol = duration >= LONG_PRESS_MS ? "-" : ".";
+  const handleTitlePointerDown = () => {
+    pressStartRef.current = Date.now();
+  };
 
+  const handleTitlePointerUp = () => {
+    const duration = Date.now() - pressStartRef.current;
+    const symbol = duration >= LONG_PRESS_MS ? "-" : ".";
+
+    if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
+    resetTimerRef.current = setTimeout(() => {
+      sequenceRef.current = [];
+    }, RESET_TIMEOUT_MS);
+
+    sequenceRef.current = [...sequenceRef.current, symbol];
+    console.log(`[pattern] ${sequenceRef.current.join(" ")}`);
+
+    if (sequenceRef.current.length >= PATTERN.length) {
+      const tail = sequenceRef.current.slice(-PATTERN.length);
+      if (tail.join("") === PATTERN.join("")) {
+        sequenceRef.current = [];
         if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
-        resetTimerRef.current = setTimeout(() => {
-            sequenceRef.current = [];
-        }, RESET_TIMEOUT_MS);
+        router.push("/manage");
+      }
+    }
+  };
 
-        sequenceRef.current = [...sequenceRef.current, symbol];
-        console.log(`[pattern] ${sequenceRef.current.join(" ")}`);
+  useEffect(() => {
+    const CACHE_KEY = "songs_cache";
 
-        if (sequenceRef.current.length >= PATTERN.length) {
-            const tail = sequenceRef.current.slice(-PATTERN.length);
-            if (tail.join("") === PATTERN.join("")) {
-                sequenceRef.current = [];
-                if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
-                router.push("/manage");
-            }
-        }
-    };
+    // Load from cache first for instant render
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (cached) {
+      try {
+        const { songs: cachedSongs } = JSON.parse(cached);
+        setSongs(cachedSongs);
+        setData(cachedSongs);
+      } catch {}
+    }
 
-    useEffect(() => {
-        const CACHE_KEY = "songs_cache";
+    // Fetch fresh data in background
+    supabase
+      .from("songs")
+      .select("id, name, sort_order")
+      .order("name", { ascending: true })
+      .then(({ data: rows }) => {
+        if (!rows) return;
+        const entries = rows.map((r, i) => ({
+          name: r.name as string,
+          id: r.id as number,
+          num: r.sort_order as number,
+        }));
+        setSongs(entries);
+        setData(entries);
+        localStorage.setItem(
+          CACHE_KEY,
+          JSON.stringify({ songs: entries, updatedAt: Date.now() }),
+        );
+      });
+  }, []);
 
-        // Load from cache first for instant render
-        const cached = localStorage.getItem(CACHE_KEY);
-        if (cached) {
-            try {
-                const { songs: cachedSongs } = JSON.parse(cached);
-                setSongs(cachedSongs);
-                setData(cachedSongs);
-            } catch {}
-        }
+  const updateData = useCallback(
+    () => setData(findSongs(songs, search, filer)),
+    [songs, filer, search],
+  );
 
-        // Fetch fresh data in background
-        supabase
-          .from("songs")
-          .select("id, name, sort_order")
-          .order("name", { ascending: true })
-          .then(({ data: rows }) => {
-            if (!rows) return;
-            const entries = rows.map((r, i) => ({
-              name: r.name as string,
-              id: r.id as number,
-              num: r.sort_order as number,
-            }));
-            setSongs(entries);
-            setData(entries);
-            localStorage.setItem(
-                CACHE_KEY,
-                JSON.stringify({ songs: entries, updatedAt: Date.now() })
-            );
-          });
-    }, []);
+  const handleFilter = (type: FilterEnum) => {
+    setSearch("");
 
-    const updateData = useCallback(
-        () => setData(findSongs(songs, search, filer)),
-        [songs, filer, search]
-    );
+    if (filer === type) {
+      setFiler(null);
+      return;
+    }
+    setFiler(type);
+  };
 
-    const handleFilter = (type: FilterEnum) => {
-        setSearch("");
+  const handleSearch = (value: string) => {
+    setSearch(value);
+    setFiler(null);
+  };
 
-        if (filer === type) {
-            setFiler(null);
-            return;
-        }
-        setFiler(type);
-    };
+  const handleResetData = () => {
+    updateData();
+  };
 
-    const handleSearch = (value: string) => {
-        setSearch(value);
-        setFiler(null);
-    };
+  useEffect(() => {
+    updateData();
+  }, [updateData]);
 
-    const handleResetData = () => {
-        updateData();
-    };
+  useEffect(() => {
+    if (data.length === 0) return;
+    const savedId = sessionStorage.getItem("songlist_clicked_id");
+    if (savedId) {
+      sessionStorage.removeItem("songlist_clicked_id");
+      const el = listRef.current?.querySelector(
+        `[data-song-id="${savedId}"]`,
+      );
+      if (el) {
+        el.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+    }
+  }, [data]);
 
-    useEffect(() => {
-        updateData();
-    }, [updateData]);
-
-    useEffect(() => {
-        if (data.length === 0) return;
-        const saved = sessionStorage.getItem("songlist_scroll");
-        if (saved) {
-            sessionStorage.removeItem("songlist_scroll");
-            window.scrollTo(0, parseInt(saved, 10));
-        }
-    }, [data]);
-
-    const handleSaveScroll = () => {
-        sessionStorage.setItem("songlist_scroll", String(window.scrollY));
-    };
-
-    return (
-        <div className={styles.page}>
-            <div className={styles.header}>
-                <h2
-                    className={styles.header__title}
-                    onPointerDown={handleTitlePointerDown}
-                    onPointerUp={handleTitlePointerUp}
-                >
-                    {title}
-                </h2>
-            </div>
-            <div className={styles.page__content}>
-                <div className={styles.page__search}>
-                    <SearchBar
-                        value={search}
-                        onChange={handleSearch}
-                        placeholder="Номер / Назва.."
-                    />
-                    <Filter activeFilter={filer} onChange={handleFilter} />
-                </div>
-                <div className={styles.page__list} onClickCapture={handleSaveScroll}>
-                    {data.map((song) => (
-                        <SongListItem
-                            key={song.id}
-                            name={song.name}
-                            id={song.id}
-                            num={song.num}
-                        />
-                    ))}
-                    {filer === FilterEnum.random && (
-                        <button
-                            className={styles.resetBtn}
-                            onClick={handleResetData}
-                        >
-                            <ResetIcon />
-                        </button>
-                    )}
-                </div>
-            </div>
+  return (
+    <div className={styles.page}>
+      <div className={styles.header}>
+        <h2
+          className={styles.header__title}
+          onPointerDown={handleTitlePointerDown}
+          onPointerUp={handleTitlePointerUp}
+        >
+          {title}
+        </h2>
+      </div>
+      <div className={styles.page__content}>
+        <div className={styles.page__search}>
+          <SearchBar
+            value={search}
+            onChange={handleSearch}
+            placeholder="Номер / Назва.."
+          />
+          <Filter activeFilter={filer} onChange={handleFilter} />
         </div>
-    );
+        <div ref={listRef} className={styles.page__list}>
+          {data.map((song) => (
+            <div
+              key={song.id}
+              data-song-id={song.id}
+              onClick={() =>
+                sessionStorage.setItem("songlist_clicked_id", String(song.id))
+              }
+            >
+              <SongListItem
+                name={song.name}
+                id={song.id}
+                num={song.num}
+              />
+            </div>
+          ))}
+          {filer === FilterEnum.random && (
+            <button className={styles.resetBtn} onClick={handleResetData}>
+              <ResetIcon />
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }
