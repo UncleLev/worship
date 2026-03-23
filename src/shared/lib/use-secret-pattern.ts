@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
 interface UseSecretPatternConfig {
   pattern: string[];
@@ -29,7 +29,7 @@ export function useSecretPattern({
 
   const onPointerUp = () => {
     const duration = Date.now() - pressStartRef.current;
-    const symbol = duration >= longPressMs ? "-" : ".";
+    const symbol = duration >= longPressMs ? '-' : '.';
 
     if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
     resetTimerRef.current = setTimeout(() => {
@@ -37,11 +37,11 @@ export function useSecretPattern({
     }, resetTimeoutMs);
 
     sequenceRef.current = [...sequenceRef.current, symbol];
-    console.log(`[pattern] ${sequenceRef.current.join(" ")}`);
+    console.log(`[pattern] ${sequenceRef.current.join(' ')}`);
 
     if (sequenceRef.current.length >= pattern.length) {
       const tail = sequenceRef.current.slice(-pattern.length);
-      if (tail.join("") === pattern.join("")) {
+      if (tail.join('') === pattern.join('')) {
         sequenceRef.current = [];
         if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
         onMatch();

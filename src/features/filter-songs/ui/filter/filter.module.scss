@@ -1,21 +1,21 @@
 @use '@/shared/styles/mixins.scss' as *;
 
 .container {
-    padding: 7px 0;
-    display: grid;
+  padding: 7px 0;
+  display: grid;
 }
 
 .btn {
-    display: flex;
-    padding: 5px;
-    border: 1px solid color(grey, 500);
-    border-radius: 15px;
-    width: fit-content;
-    background: none;
-    outline: none;
-    cursor: pointer;
+  display: flex;
+  padding: 5px;
+  border: 1px solid color(grey, 500);
+  border-radius: 15px;
+  width: fit-content;
+  background: none;
+  outline: none;
+  cursor: pointer;
 
-    &--selected {
-        background: color(grey);
-    }
+  &--selected {
+    background: color(grey);
+  }
 }

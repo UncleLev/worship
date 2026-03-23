@@ -1,4 +1,4 @@
 export enum FilterEnum {
-    random = "random",
-    favorite = "favorite",
+  random = 'random',
+  favorite = 'favorite',
 }

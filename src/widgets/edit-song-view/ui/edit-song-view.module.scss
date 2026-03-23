@@ -1,394 +1,396 @@
 @use '@/shared/styles/mixins.scss' as *;
 
 .container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
 }
 
 .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  flex-shrink: 0;
+  border-radius: 0 0 30px 30px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  @include backgroundGradient;
+
+  &__back {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 14px 20px;
-    flex-shrink: 0;
-    border-radius: 0 0 30px 30px;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    @include backgroundGradient;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: color(grey, 100);
+    text-decoration: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    transition: background 0.15s;
 
-    &__back {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(255, 255, 255, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        color: color(grey, 100);
-        text-decoration: none;
-        width: 36px;
-        height: 36px;
-        border-radius: 8px;
-        transition: background 0.15s;
-
-        svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        &:hover {
-            background: rgba(255, 255, 255, 0.35);
-        }
+    svg {
+      width: 20px;
+      height: 20px;
     }
 
-    &__title {
-        font-size: 28px;
-        font-weight: 500;
-        color: color(grey, 100);
+    &:hover {
+      background: rgba(255, 255, 255, 0.35);
+    }
+  }
+
+  &__title {
+    font-size: 28px;
+    font-weight: 500;
+    color: color(grey, 100);
+  }
+
+  &__save {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: color(grey, 100);
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+
+    &:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.35);
     }
 
-    &__save {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(255, 255, 255, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        color: color(grey, 100);
-        width: 36px;
-        height: 36px;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background 0.15s;
-
-        &:hover:not(:disabled) {
-            background: rgba(255, 255, 255, 0.35);
-        }
-
-        &:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
+  }
 }
 
 .success {
-    padding: 10px 20px;
-    background: #e6f4ea;
-    color: #2d7a3a;
-    font-size: 14px;
-    text-align: center;
+  padding: 10px 20px;
+  background: #e6f4ea;
+  color: #2d7a3a;
+  font-size: 14px;
+  text-align: center;
 }
 
 .error {
-    padding: 10px 20px;
-    background: #fdecea;
-    color: #c0392b;
-    font-size: 14px;
-    text-align: center;
+  padding: 10px 20px;
+  background: #fdecea;
+  color: #c0392b;
+  font-size: 14px;
+  text-align: center;
 }
 
 .loading {
-    padding: 40px;
-    text-align: center;
-    color: color(grey);
-    font-size: 16px;
+  padding: 40px;
+  text-align: center;
+  color: color(grey);
+  font-size: 16px;
 }
 
 // Mobile toggle — visible only on mobile
 .mobileToggle {
-    display: flex;
-    gap: 0;
-    padding: 12px 20px 0;
-    flex-shrink: 0;
+  display: flex;
+  gap: 0;
+  padding: 12px 20px 0;
+  flex-shrink: 0;
 
-    @include laptop {
-        display: none;
+  @include laptop {
+    display: none;
+  }
+
+  &__btn {
+    flex: 1;
+    padding: 8px;
+    background: none;
+    border: 1px solid color(grey, 300);
+    font-size: 14px;
+    cursor: pointer;
+    color: color(grey);
+    transition:
+      background 0.15s,
+      color 0.15s;
+
+    &:first-child {
+      border-radius: 8px 0 0 8px;
     }
 
-    &__btn {
-        flex: 1;
-        padding: 8px;
-        background: none;
-        border: 1px solid color(grey, 300);
-        font-size: 14px;
-        cursor: pointer;
-        color: color(grey);
-        transition: background 0.15s, color 0.15s;
-
-        &:first-child {
-            border-radius: 8px 0 0 8px;
-        }
-
-        &:last-child {
-            border-radius: 0 8px 8px 0;
-        }
-
-        &--active {
-            background: color(main);
-            color: color(grey, 100);
-            border-color: color(main);
-        }
+    &:last-child {
+      border-radius: 0 8px 8px 0;
     }
+
+    &--active {
+      background: color(main);
+      color: color(grey, 100);
+      border-color: color(main);
+    }
+  }
 }
 
 .body {
-    display: flex;
-    flex: 1;
-    min-height: calc(100dvh - 100px);
-    flex-direction: column;
-    gap: 0;
-    padding: 16px 20px 32px;
+  display: flex;
+  flex: 1;
+  min-height: calc(100dvh - 100px);
+  flex-direction: column;
+  gap: 0;
+  padding: 16px 20px 32px;
 
-    @include laptop {
-        flex-direction: row;
-        gap: 24px;
-        align-items: flex-start;
-    }
+  @include laptop {
+    flex-direction: row;
+    gap: 24px;
+    align-items: flex-start;
+  }
 }
 
 .editor {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    gap: 16px;
-    width: 100%;
-    min-height: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  min-height: 0;
+
+  @include laptop {
+    width: 50%;
+    flex: none;
+  }
+
+  &--hidden {
+    display: none;
 
     @include laptop {
-        width: 50%;
-        flex: none;
+      display: flex;
     }
-
-    &--hidden {
-        display: none;
-
-        @include laptop {
-            display: flex;
-        }
-    }
+  }
 }
 
 .field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &__label {
+    font-size: 13px;
+    font-weight: 600;
+    color: color(grey);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  &__labelRow {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  &__infoBtn {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: color(grey);
+    padding: 2px;
+    border-radius: 4px;
+    transition: color 0.15s;
+
+    &:hover {
+      color: color(main);
+    }
+  }
+
+  &__input,
+  &__select {
+    padding: 8px 12px;
+    border: 1px solid color(grey, 300);
+    border-radius: 8px;
+    font-size: 16px;
+    color: color(text);
+    background: color(grey, 100);
+    transition: border-color 0.15s;
+
+    &:focus {
+      outline: none;
+      border-color: color(main);
+    }
+  }
+
+  &__textarea {
+    padding: 10px 12px;
+    border: 1px solid color(grey, 300);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: monospace;
+    color: color(text);
+    background: color(grey, 100);
+    resize: none;
+    flex: 1;
+    min-height: 200px;
+    line-height: 1.5;
+    transition: border-color 0.15s;
+
+    @include laptop {
+      min-height: calc(100dvh - 260px);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: color(main);
+    }
+  }
+
+  &__error {
+    font-size: 13px;
+    color: #c0392b;
+  }
+
+  &--grow {
+    flex: 1;
+    min-height: 0;
     display: flex;
     flex-direction: column;
-    gap: 6px;
-
-    &__label {
-        font-size: 13px;
-        font-weight: 600;
-        color: color(grey);
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-    }
-
-    &__labelRow {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-
-    &__infoBtn {
-        display: flex;
-        align-items: center;
-        background: none;
-        border: none;
-        cursor: pointer;
-        color: color(grey);
-        padding: 2px;
-        border-radius: 4px;
-        transition: color 0.15s;
-
-        &:hover {
-            color: color(main);
-        }
-    }
-
-    &__input,
-    &__select {
-        padding: 8px 12px;
-        border: 1px solid color(grey, 300);
-        border-radius: 8px;
-        font-size: 16px;
-        color: color(text);
-        background: color(grey, 100);
-        transition: border-color 0.15s;
-
-        &:focus {
-            outline: none;
-            border-color: color(main);
-        }
-    }
-
-    &__textarea {
-        padding: 10px 12px;
-        border: 1px solid color(grey, 300);
-        border-radius: 8px;
-        font-size: 14px;
-        font-family: monospace;
-        color: color(text);
-        background: color(grey, 100);
-        resize: none;
-        flex: 1;
-        min-height: 200px;
-        line-height: 1.5;
-        transition: border-color 0.15s;
-
-        @include laptop {
-            min-height: calc(100dvh - 260px);
-        }
-
-        &:focus {
-            outline: none;
-            border-color: color(main);
-        }
-    }
-
-    &__error {
-        font-size: 13px;
-        color: #c0392b;
-    }
-
-    &--grow {
-        flex: 1;
-        min-height: 0;
-        display: flex;
-        flex-direction: column;
-    }
+  }
 }
 
 .preview {
-    flex: 1;
-    min-width: 0;
-    background: color(grey, 100);
-    border-radius: 12px;
-    padding: 24px 4px;
-    border: 1px solid color(grey, 200);
+  flex: 1;
+  min-width: 0;
+  background: color(grey, 100);
+  border-radius: 12px;
+  padding: 24px 4px;
+  border: 1px solid color(grey, 200);
 
-    &--hidden {
-        display: none;
+  &--hidden {
+    display: none;
 
-        @include laptop {
-            display: block;
-        }
+    @include laptop {
+      display: block;
     }
+  }
 
-    &__empty {
-        padding: 40px;
-        text-align: center;
-        color: color(grey, 300);
-        font-size: 14px;
-    }
+  &__empty {
+    padding: 40px;
+    text-align: center;
+    color: color(grey, 300);
+    font-size: 14px;
+  }
 }
 
 .dangerZone {
-    padding: 32px 20px 16px;
-    display: flex;
-    justify-content: center;
+  padding: 32px 20px 16px;
+  display: flex;
+  justify-content: center;
 }
 
 // Dialog styles
 .dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__text {
+    font-size: 18px;
+    font-weight: 500;
+    color: color(text);
+    margin: 0;
+  }
+
+  &__actions {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
+    justify-content: flex-end;
+    gap: 10px;
+  }
 
-    &__text {
-        font-size: 18px;
-        font-weight: 500;
-        color: color(text);
-        margin: 0;
+  &__cancel {
+    padding: 8px 20px;
+    border: 1px solid color(grey, 300);
+    border-radius: 8px;
+    background: none;
+    font-size: 15px;
+    cursor: pointer;
+    color: color(grey);
+    transition: background 0.15s;
+
+    &:hover:not(:disabled) {
+      background: color(grey, 200);
     }
 
-    &__actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &__confirm {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 8px;
+    background: color(main);
+    font-size: 15px;
+    cursor: pointer;
+    color: color(grey, 100);
+    transition: opacity 0.15s;
+
+    &:hover:not(:disabled) {
+      opacity: 0.85;
     }
 
-    &__cancel {
-        padding: 8px 20px;
-        border: 1px solid color(grey, 300);
-        border-radius: 8px;
-        background: none;
-        font-size: 15px;
-        cursor: pointer;
-        color: color(grey);
-        transition: background 0.15s;
-
-        &:hover:not(:disabled) {
-            background: color(grey, 200);
-        }
-
-        &:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
-
-    &__confirm {
-        padding: 8px 20px;
-        border: none;
-        border-radius: 8px;
-        background: color(main);
-        font-size: 15px;
-        cursor: pointer;
-        color: color(grey, 100);
-        transition: opacity 0.15s;
-
-        &:hover:not(:disabled) {
-            opacity: 0.85;
-        }
-
-        &:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-    }
+  }
 }
 
 // Info modal styles
 .infoModal {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  &__title {
+    font-size: 18px;
+    font-weight: 600;
+    color: color(text);
+    margin: 0;
+  }
+
+  &__list {
+    padding-left: 20px;
+    margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 10px;
+    font-size: 15px;
+    color: color(text);
+    line-height: 1.6;
 
-    &__title {
-        font-size: 18px;
-        font-weight: 600;
-        color: color(text);
-        margin: 0;
+    code {
+      background: color(grey, 200);
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 13px;
     }
+  }
 
-    &__list {
-        padding-left: 20px;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        font-size: 15px;
-        color: color(text);
-        line-height: 1.6;
+  &__close {
+    align-self: flex-end;
+    padding: 8px 20px;
+    border: 1px solid color(grey, 300);
+    border-radius: 8px;
+    background: none;
+    font-size: 15px;
+    cursor: pointer;
+    color: color(grey);
+    transition: background 0.15s;
 
-        code {
-            background: color(grey, 200);
-            padding: 1px 5px;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 13px;
-        }
+    &:hover {
+      background: color(grey, 200);
     }
-
-    &__close {
-        align-self: flex-end;
-        padding: 8px 20px;
-        border: 1px solid color(grey, 300);
-        border-radius: 8px;
-        background: none;
-        font-size: 15px;
-        cursor: pointer;
-        color: color(grey);
-        transition: background 0.15s;
-
-        &:hover {
-            background: color(grey, 200);
-        }
-    }
+  }
 }

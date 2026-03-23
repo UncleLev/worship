@@ -2,29 +2,33 @@
 @use './vars.scss' as *;
 
 @function color($color, $tone: 400) {
-    $palette: map.get($palettes, $color);
+  $palette: map.get($palettes, $color);
 
-    @if not $palette {
-        @warn "unknown color `#{$color}` in palette";
-        @return null;
-    }
+  @if not $palette {
+    @warn "unknown color `#{$color}` in palette";
+    @return null;
+  }
 
-    $shade: map.get($palette, $tone);
+  $shade: map.get($palette, $tone);
 
-    @if not $shade {
-        @warn "unknown tone `#{$tone}` in color `#{$color}`";
-        @return null;
-    }
+  @if not $shade {
+    @warn "unknown tone `#{$tone}` in color `#{$color}`";
+    @return null;
+  }
 
-    @return $shade;
+  @return $shade;
 }
 
 @mixin backgroundGradient {
-    background: linear-gradient(90deg, rgb(47, 44, 104) 0%, rgb(182 104 104) 100%);
+  background: linear-gradient(
+    90deg,
+    rgb(47, 44, 104) 0%,
+    rgb(182 104 104) 100%
+  );
 }
 
 @mixin laptop {
-    @media (min-width: 1023px) {
-        @content;
-    }
+  @media (min-width: 1023px) {
+    @content;
+  }
 }

@@ -1,9 +1,9 @@
-import styles from './page.module.scss' 
+import styles from './page.module.scss';
 
 export default function RootLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    return <div className={styles.layout}>{children}</div>;
+  return <div className={styles.layout}>{children}</div>;
 }

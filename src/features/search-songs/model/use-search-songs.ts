@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from 'react';
 
-import { FilterEnum } from "@/features/filter-songs";
-import type { SongEntry } from "@/entities/song";
+import { FilterEnum } from '@/features/filter-songs';
+import type { SongEntry } from '@/entities/song';
 
 const randomNumbArray = ({
   length,
@@ -49,7 +49,7 @@ const findSongs = (
 };
 
 export function useSearchSongs(songs: SongEntry[]) {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<FilterEnum | null>(null);
   const [data, setData] = useState<SongEntry[]>([]);
 
@@ -59,7 +59,7 @@ export function useSearchSongs(songs: SongEntry[]) {
   );
 
   const handleFilter = (type: FilterEnum) => {
-    setSearch("");
+    setSearch('');
     if (filter === type) {
       setFilter(null);
       return;

@@ -1,1 +1,1 @@
-export { default as EditSongView } from "./ui/edit-song-view";
+export { default as EditSongView } from './ui/edit-song-view';

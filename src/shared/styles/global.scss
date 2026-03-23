@@ -1,32 +1,31 @@
 @use './mixins.scss' as *;
 
 * {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 html,
 body {
-    max-width: 100vw;
-    overflow-x: hidden;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 a {
-    color: inherit;
-    text-decoration: none;
+  color: inherit;
+  text-decoration: none;
 }
 
-
 span.chords {
-    color: color(chords);
-    font-weight: 700;
+  color: color(chords);
+  font-weight: 700;
 }
 
 .hide {
-    span.chords {
-        display: none;
-    }
+  span.chords {
+    display: none;
+  }
 }
 
 /* clears the ‘X’ from Chrome */
@@ -34,5 +33,5 @@ input[type='search']::-webkit-search-decoration,
 input[type='search']::-webkit-search-cancel-button,
 input[type='search']::-webkit-search-results-button,
 input[type='search']::-webkit-search-results-decoration {
-    display: none;
+  display: none;
 }

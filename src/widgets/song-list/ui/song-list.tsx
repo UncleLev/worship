@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
 
-import { SearchBar, useSearchSongs } from "@/features/search-songs";
-import { Filter, FilterEnum } from "@/features/filter-songs";
-import { SongListItem, useSongList } from "@/entities/song";
+import { SearchBar, useSearchSongs } from '@/features/search-songs';
+import { Filter, FilterEnum } from '@/features/filter-songs';
+import { SongListItem, useSongList } from '@/entities/song';
 
-import { ResetIcon } from "@/shared/ui/icons";
-import { useSecretPattern } from "@/shared/lib/use-secret-pattern";
-import { useScrollRestore } from "@/shared/lib/use-scroll-restore";
+import { ResetIcon } from '@/shared/ui/icons';
+import { useSecretPattern } from '@/shared/lib/use-secret-pattern';
+import { useScrollRestore } from '@/shared/lib/use-scroll-restore';
 
-import styles from "./song-list.module.scss";
+import styles from './song-list.module.scss';
 
 export default function SongList() {
   const router = useRouter();
@@ -19,8 +19,8 @@ export default function SongList() {
     useSearchSongs(songs);
 
   const { onPointerDown, onPointerUp } = useSecretPattern({
-    pattern: ["-", ".", ".", ".", "-"],
-    onMatch: () => router.push("/manage"),
+    pattern: ['-', '.', '.', '.', '-'],
+    onMatch: () => router.push('/manage'),
   });
 
   const { listRef, saveScrollId } = useScrollRestore({ data });
@@ -65,4 +65,3 @@ export default function SongList() {
     </div>
   );
 }
-  

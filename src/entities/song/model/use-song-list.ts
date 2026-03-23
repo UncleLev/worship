@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import supabase from "@/shared/lib/supabase-browser";
+import supabase from '@/shared/lib/supabase-browser';
 
-import type { SongEntry } from "./types";
+import type { SongEntry } from './types';
 
-const CACHE_KEY = "songs_cache";
+const CACHE_KEY = 'songs_cache';
 
 export function useSongList(): { songs: SongEntry[] } {
   const [songs, setSongs] = useState<SongEntry[]>([]);
@@ -19,9 +19,9 @@ export function useSongList(): { songs: SongEntry[] } {
     }
 
     supabase
-      .from("songs")
-      .select("id, name, sort_order")
-      .order("name", { ascending: true })
+      .from('songs')
+      .select('id, name, sort_order')
+      .order('name', { ascending: true })
       .then(({ data: rows }) => {
         if (!rows) return;
         const entries = rows.map((r) => ({

@@ -1,1 +1,1 @@
-export { default as AdminSongList } from "./ui/admin-song-list";
+export { default as AdminSongList } from './ui/admin-song-list';

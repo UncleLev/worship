@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import Modal from "react-modal";
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import Modal from 'react-modal';
 
-import { parseSongRow } from "@/entities/song/lib/parser";
-import { reorderSongsAlphabetically } from "@/entities/song/api/reorder-songs";
-import { SongView } from "@/widgets/song-view";
-import { DeleteSongFlow } from "@/features/delete-song";
-import { scale } from "@/shared/lib/chord";
-import supabase from "@/shared/lib/supabase-browser";
+import { parseSongRow } from '@/entities/song/lib/parser';
+import { reorderSongsAlphabetically } from '@/entities/song/api/reorder-songs';
+import { SongView } from '@/widgets/song-view';
+import { DeleteSongFlow } from '@/features/delete-song';
+import { scale } from '@/shared/lib/chord';
+import supabase from '@/shared/lib/supabase-browser';
 
-import { LeftArrowIcon } from "@/shared/ui/icons";
+import { LeftArrowIcon } from '@/shared/ui/icons';
 
-import styles from "./edit-song-view.module.scss";
+import styles from './edit-song-view.module.scss';
 
-Modal.setAppElement("body");
+Modal.setAppElement('body');
 
 type Props = {
   id?: number;
@@ -64,19 +64,19 @@ function InfoIcon() {
 
 const modalStyle = {
   content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    minWidth: "300px",
-    maxWidth: "480px",
-    width: "90vw",
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    minWidth: '300px',
+    maxWidth: '480px',
+    width: '90vw',
   },
   overlay: {
-    position: "fixed" as const,
-    backgroundColor: "rgb(65 65 65 / 75%)",
+    position: 'fixed' as const,
+    backgroundColor: 'rgb(65 65 65 / 75%)',
     zIndex: 1000,
   },
 };
@@ -85,13 +85,13 @@ export default function EditSongView({ id }: Props) {
   const isAdd = id === undefined;
   const router = useRouter();
 
-  const [title, setTitle] = useState("");
-  const [key, setKey] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState('');
+  const [key, setKey] = useState('');
+  const [content, setContent] = useState('');
   const [isLoading, setIsLoading] = useState(!isAdd);
   const [isSaving, setIsSaving] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
-  const [mobileTab, setMobileTab] = useState<"edit" | "preview">("edit");
+  const [mobileTab, setMobileTab] = useState<'edit' | 'preview'>('edit');
   const [showSaveDialog, setShowSaveDialog] = useState(false);
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [titleError, setTitleError] = useState<string | null>(null);
@@ -105,9 +105,9 @@ export default function EditSongView({ id }: Props) {
     async function fetchSong() {
       setIsLoading(true);
       const { data, error } = await supabase
-        .from("songs")
-        .select("name, key, lyrics")
-        .eq("id", id)
+        .from('songs')
+        .select('name, key, lyrics')
+        .eq('id', id)
         .single();
 
       setIsLoading(false);
@@ -118,12 +118,12 @@ export default function EditSongView({ id }: Props) {
       }
 
       if (!data) {
-        setFetchError("Song not found");
+        setFetchError('Song not found');
         return;
       }
 
       setTitle(data.name);
-      setKey(data.key ?? "");
+      setKey(data.key ?? '');
       setContent(data.lyrics);
     }
 
@@ -134,8 +134,8 @@ export default function EditSongView({ id }: Props) {
     const handler = (e: BeforeUnloadEvent) => {
       if (isDirty) e.preventDefault();
     };
-    window.addEventListener("beforeunload", handler);
-    return () => window.removeEventListener("beforeunload", handler);
+    window.addEventListener('beforeunload', handler);
+    return () => window.removeEventListener('beforeunload', handler);
   }, [isDirty]);
 
   const previewSong = useMemo(() => {
@@ -178,9 +178,9 @@ export default function EditSongView({ id }: Props) {
     setSaveError(null);
 
     const { error } = await supabase
-      .from("songs")
+      .from('songs')
       .update({ name: title, key: key || null, lyrics: content })
-      .eq("id", id!);
+      .eq('id', id!);
 
     setIsSaving(false);
     setShowSaveDialog(false);
@@ -189,7 +189,7 @@ export default function EditSongView({ id }: Props) {
       setSaveError(error.message);
     } else {
       setIsDirty(false);
-      setSuccessMessage("Пісню збережено успішно");
+      setSuccessMessage('Пісню збережено успішно');
     }
   }, [title, key, content, id]);
 
@@ -200,31 +200,31 @@ export default function EditSongView({ id }: Props) {
 
     // Check title uniqueness (case-insensitive)
     const { data: existing } = await supabase
-      .from("songs")
-      .select("id")
-      .ilike("name", title.trim())
+      .from('songs')
+      .select('id')
+      .ilike('name', title.trim())
       .maybeSingle();
 
     if (existing) {
-      setTitleError("Пісня з такою назвою вже існує");
+      setTitleError('Пісня з такою назвою вже існує');
       setIsSaving(false);
       return;
     }
 
     // Insert new song
     const { data: newSong, error: insertError } = await supabase
-      .from("songs")
+      .from('songs')
       .insert({
         name: title.trim(),
         key: key || null,
         lyrics: content,
         sort_order: 0,
       })
-      .select("id")
+      .select('id')
       .single();
 
     if (insertError || !newSong) {
-      setSaveError(insertError?.message ?? "Помилка збереження");
+      setSaveError(insertError?.message ?? 'Помилка збереження');
       setIsSaving(false);
       return;
     }
@@ -250,13 +250,13 @@ export default function EditSongView({ id }: Props) {
           <LeftArrowIcon />
         </Link>
         <span className={styles.header__title}>
-          {isAdd ? "Додавання" : "Редагування"}
+          {isAdd ? 'Додавання' : 'Редагування'}
         </span>
         <button
           className={styles.header__save}
           onClick={isAdd ? handleAddSave : () => setShowSaveDialog(true)}
           disabled={isSaving || !title.trim() || !content.trim()}
-          aria-label={isSaving ? "Збереження..." : "Зберегти"}
+          aria-label={isSaving ? 'Збереження...' : 'Зберегти'}
         >
           <SaveIcon />
         </button>
@@ -267,14 +267,14 @@ export default function EditSongView({ id }: Props) {
 
       <div className={styles.mobileToggle}>
         <button
-          className={`${styles.mobileToggle__btn} ${mobileTab === "edit" ? styles["mobileToggle__btn--active"] : ""}`}
-          onClick={() => setMobileTab("edit")}
+          className={`${styles.mobileToggle__btn} ${mobileTab === 'edit' ? styles['mobileToggle__btn--active'] : ''}`}
+          onClick={() => setMobileTab('edit')}
         >
           Редактор
         </button>
         <button
-          className={`${styles.mobileToggle__btn} ${mobileTab === "preview" ? styles["mobileToggle__btn--active"] : ""}`}
-          onClick={() => setMobileTab("preview")}
+          className={`${styles.mobileToggle__btn} ${mobileTab === 'preview' ? styles['mobileToggle__btn--active'] : ''}`}
+          onClick={() => setMobileTab('preview')}
         >
           Перегляд
         </button>
@@ -282,7 +282,7 @@ export default function EditSongView({ id }: Props) {
 
       <div className={styles.body}>
         <div
-          className={`${styles.editor} ${mobileTab === "preview" ? styles["editor--hidden"] : ""}`}
+          className={`${styles.editor} ${mobileTab === 'preview' ? styles['editor--hidden'] : ''}`}
         >
           <div className={styles.field}>
             <label className={styles.field__label} htmlFor="edit-title">
@@ -319,7 +319,7 @@ export default function EditSongView({ id }: Props) {
             </select>
           </div>
 
-          <div className={`${styles.field} ${styles["field--grow"]}`}>
+          <div className={`${styles.field} ${styles['field--grow']}`}>
             <div className={styles.field__labelRow}>
               <label className={styles.field__label} htmlFor="edit-content">
                 Зміст
@@ -342,7 +342,7 @@ export default function EditSongView({ id }: Props) {
         </div>
 
         <div
-          className={`${styles.preview} ${mobileTab === "edit" ? styles["preview--hidden"] : ""}`}
+          className={`${styles.preview} ${mobileTab === 'edit' ? styles['preview--hidden'] : ''}`}
         >
           {previewSong ? (
             <SongView song={previewSong} />
@@ -381,7 +381,7 @@ export default function EditSongView({ id }: Props) {
                 onClick={handleSaveConfirm}
                 disabled={isSaving}
               >
-                {isSaving ? "Збереження..." : "Зберегти"}
+                {isSaving ? 'Збереження...' : 'Зберегти'}
               </button>
             </div>
           </div>
@@ -399,7 +399,7 @@ export default function EditSongView({ id }: Props) {
           <h3 className={styles.infoModal__title}>Формат змісту</h3>
           <ul className={styles.infoModal__list}>
             <li>
-              <code>@Назва секції</code> — заголовок секції (напр.{" "}
+              <code>@Назва секції</code> — заголовок секції (напр.{' '}
               <code>@Куплет</code>, <code>@Приспів</code>, <code>@Bridge</code>)
             </li>
           </ul>

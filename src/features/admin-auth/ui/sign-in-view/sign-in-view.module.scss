@@ -1,66 +1,66 @@
 @use '@/shared/styles/mixins.scss' as *;
 
 .page {
-    min-height: 100dvh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .card {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 40px;
-    width: 100%;
-    max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
 }
 
 .title {
-    font-size: 24px;
-    font-weight: 600;
-    color: color(grey, 900);
-    text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  color: color(grey, 900);
+  text-align: center;
 }
 
 .field {
-    display: flex;
-    width: 100%;
-    padding-inline: 25px 15px;
-    padding-block: 6px;
-    align-items: center;
-    border-radius: 20px;
-    border: 1px solid color(grey, 900);
+  display: flex;
+  width: 100%;
+  padding-inline: 25px 15px;
+  padding-block: 6px;
+  align-items: center;
+  border-radius: 20px;
+  border: 1px solid color(grey, 900);
 
-    input {
-        width: 100%;
-        outline: none;
-        border: none;
-        font-size: 20px;
-        font-weight: 400;
-        line-height: 40px;
-        color: color(text);
-        &::placeholder {
-            color: color(grey, 500);
-        }
+  input {
+    width: 100%;
+    outline: none;
+    border: none;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 40px;
+    color: color(text);
+    &::placeholder {
+      color: color(grey, 500);
     }
+  }
 }
 
 .error {
-    font-size: 14px;
-    color: color(chords);
-    text-align: center;
+  font-size: 14px;
+  color: color(chords);
+  text-align: center;
 }
 
 .button {
-    @include backgroundGradient;
-    color: color(white);
-    border: none;
-    border-radius: 20px;
-    padding: 12px 24px;
-    font-size: 20px;
-    font-weight: 500;
-    cursor: pointer;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    width: 100%;
+  @include backgroundGradient;
+  color: color(white);
+  border: none;
+  border-radius: 20px;
+  padding: 12px 24px;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  width: 100%;
 }

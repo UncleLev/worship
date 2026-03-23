@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
 interface UseScrollRestoreConfig {
   data: unknown[];
@@ -8,8 +8,8 @@ interface UseScrollRestoreConfig {
 
 export function useScrollRestore({
   data,
-  storageKey = "songlist_clicked_id",
-  dataAttribute = "data-song-id",
+  storageKey = 'songlist_clicked_id',
+  dataAttribute = 'data-song-id',
 }: UseScrollRestoreConfig) {
   const listRef = useRef<HTMLDivElement | null>(null);
 
@@ -22,7 +22,7 @@ export function useScrollRestore({
         `[${dataAttribute}="${savedId}"]`,
       );
       if (el) {
-        el.scrollIntoView({ block: "center", behavior: "smooth" });
+        el.scrollIntoView({ block: 'center', behavior: 'smooth' });
       }
     }
   }, [data, storageKey, dataAttribute]);

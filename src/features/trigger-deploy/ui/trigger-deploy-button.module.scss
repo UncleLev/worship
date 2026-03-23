@@ -1,109 +1,112 @@
 .deployBtn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    cursor: pointer;
-    color: rgba(255, 255, 255, 0.85);
-    padding: 8px;
-    border-radius: 8px;
-    transition: color 0.15s, background 0.15s, border-color 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.85);
+  padding: 8px;
+  border-radius: 8px;
+  transition:
+    color 0.15s,
+    background 0.15s,
+    border-color 0.15s;
+
+  &:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+
+  &_active {
+    color: #f0c040;
+    border-color: rgba(240, 192, 64, 0.5);
+    background: rgba(240, 192, 64, 0.12);
 
     &:hover {
-        color: #fff;
-        background: rgba(255, 255, 255, 0.25);
-        border-color: rgba(255, 255, 255, 0.4);
+      color: #f0c040;
+      background: rgba(240, 192, 64, 0.2);
+      border-color: rgba(240, 192, 64, 0.7);
     }
-
-    &_active {
-        color: #f0c040;
-        border-color: rgba(240, 192, 64, 0.5);
-        background: rgba(240, 192, 64, 0.12);
-
-        &:hover {
-            color: #f0c040;
-            background: rgba(240, 192, 64, 0.2);
-            border-color: rgba(240, 192, 64, 0.7);
-        }
-    }
+  }
 }
 
 .dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  &__title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+  }
+
+  &__warning {
+    font-size: 15px;
+    color: #555;
+    margin: 0;
+  }
+
+  &__info {
+    font-size: 14px;
+    color: #777;
+    margin: 0;
+  }
+
+  &__countdown {
+    font-size: 15px;
+    color: #555;
+    margin: 0;
+
+    strong {
+      font-variant-numeric: tabular-nums;
+      color: #333;
+    }
+  }
+
+  &__error {
+    font-size: 13px;
+    color: #c0392b;
+    margin: 0;
+  }
+
+  &__actions {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 8px;
+  }
 
-    &__title {
-        font-size: 18px;
-        font-weight: 600;
-        color: #333;
-        margin: 0;
+  &__cancel {
+    padding: 8px 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: none;
+    font-size: 15px;
+    cursor: pointer;
+    color: #555;
+    transition: background 0.15s;
+
+    &:hover {
+      background: #f0f0f0;
     }
+  }
 
-    &__warning {
-        font-size: 15px;
-        color: #555;
-        margin: 0;
+  &__confirm {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #4a7fc1;
+    font-size: 15px;
+    cursor: pointer;
+    color: #fff;
+    transition: opacity 0.15s;
+
+    &:hover {
+      opacity: 0.85;
     }
-
-    &__info {
-        font-size: 14px;
-        color: #777;
-        margin: 0;
-    }
-
-    &__countdown {
-        font-size: 15px;
-        color: #555;
-        margin: 0;
-
-        strong {
-            font-variant-numeric: tabular-nums;
-            color: #333;
-        }
-    }
-
-    &__error {
-        font-size: 13px;
-        color: #c0392b;
-        margin: 0;
-    }
-
-    &__actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
-        margin-top: 8px;
-    }
-
-    &__cancel {
-        padding: 8px 20px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        background: none;
-        font-size: 15px;
-        cursor: pointer;
-        color: #555;
-        transition: background 0.15s;
-
-        &:hover {
-            background: #f0f0f0;
-        }
-    }
-
-    &__confirm {
-        padding: 8px 20px;
-        border: none;
-        border-radius: 8px;
-        background: #4a7fc1;
-        font-size: 15px;
-        cursor: pointer;
-        color: #fff;
-        transition: opacity 0.15s;
-
-        &:hover {
-            opacity: 0.85;
-        }
-    }
+  }
 }

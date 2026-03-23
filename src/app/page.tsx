@@ -1,5 +1,5 @@
-import { SongList } from "@/widgets/song-list";
+import { SongList } from '@/widgets/song-list';
 
 export default function Home() {
-    return <SongList />;
+  return <SongList />;
 }

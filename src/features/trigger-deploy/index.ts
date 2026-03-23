@@ -1,1 +1,1 @@
-export { default as TriggerDeployButton } from "./ui/trigger-deploy-button";
+export { default as TriggerDeployButton } from './ui/trigger-deploy-button';
