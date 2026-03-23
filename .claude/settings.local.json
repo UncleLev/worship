@@ -11,7 +11,8 @@
       "Bash(cp src/data/songs.txt src/entities/song/api/songs.txt)",
       "Bash(git diff src/app/manage/edit/[id]/page.tsx)",
       "Bash(xargs grep -l \"create\\\\|add\" -i)",
-      "Bash(xargs grep -l \"delete\\\\|remove\\\\|confirm\")"
+      "Bash(xargs grep -l \"delete\\\\|remove\\\\|confirm\")",
+      "Bash(ls:*)"
     ]
   }
 }

@@ -170,6 +170,19 @@ export default function SongList() {
         updateData();
     }, [updateData]);
 
+    useEffect(() => {
+        if (data.length === 0) return;
+        const saved = sessionStorage.getItem("songlist_scroll");
+        if (saved) {
+            sessionStorage.removeItem("songlist_scroll");
+            window.scrollTo(0, parseInt(saved, 10));
+        }
+    }, [data]);
+
+    const handleSaveScroll = () => {
+        sessionStorage.setItem("songlist_scroll", String(window.scrollY));
+    };
+
     return (
         <div className={styles.page}>
             <div className={styles.header}>
@@ -190,7 +203,7 @@ export default function SongList() {
                     />
                     <Filter activeFilter={filer} onChange={handleFilter} />
                 </div>
-                <div className={styles.page__list}>
+                <div className={styles.page__list} onClick={handleSaveScroll}>
                     {data.map((song) => (
                         <SongListItem
                             key={song.id}
