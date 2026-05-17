@@ -15,7 +15,7 @@ export default function SongNumber({ sortOrder, songId }: Props) {
 
   const { onPointerDown, onPointerUp } = useSecretPattern({
     pattern: ['-', '.', '.', '.', '-'],
-    onMatch: () => router.push(`/manage/edit/${songId}`),
+    onMatch: () => router.push(`/manage?redirect=/manage/edit/${songId}`),
   });
 
   return (
