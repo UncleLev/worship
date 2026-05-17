@@ -1,6 +1,6 @@
 import { Metadata } from 'next/types';
 
-import { ArrowBack, ShareBtn, SongView } from '@/widgets/song-view';
+import { ArrowBack, SongNumber, ShareBtn, SongView } from '@/widgets/song-view';
 import SongNotFound from './_song-not-found';
 
 import styles from './page.module.scss';
@@ -58,7 +58,7 @@ export default async function Song({
     <div className={''}>
       <div className={styles.header}>
         <ArrowBack />
-        <span>№{row.sort_order}</span>
+        <SongNumber sortOrder={row.sort_order} songId={row.id} />
         <ShareBtn title={song.title} />
       </div>
       <div className={styles.songList__wrapper}>
