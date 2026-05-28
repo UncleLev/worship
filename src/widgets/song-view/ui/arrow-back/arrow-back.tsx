@@ -13,7 +13,7 @@ const ArrowBack = ({ className }: ArrowBackType) => {
   const navigation = useRouter();
 
   const handleGoBack = () => {
-    navigation.back();
+    navigation.push('/');
   };
 
   return (
