@@ -1,5 +1,3 @@
-import { createClient } from '@supabase/supabase-js';
-
 export interface SongRow {
   id: number;
   name: string;
@@ -8,58 +6,56 @@ export interface SongRow {
   sort_order: number;
 }
 
-export async function fetchSongs(): Promise<SongRow[]> {
+function getEnv() {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_PUBLISHABLE_DEFAULT_KEY;
-
   if (!url || !key) {
     throw new Error(
       'Missing SUPABASE_URL or SUPABASE_PUBLISHABLE_DEFAULT_KEY environment variables',
     );
   }
+  return { url, key };
+}
 
-  const supabase = createClient(url, key, {
-    global: { fetch: (input, init) => fetch(input, { ...init, cache: 'no-store' }) },
-  });
+const SELECT = 'id,name,key,lyrics,sort_order';
 
-  const { data, error } = await supabase
-    .from('songs')
-    .select('id, name, key, lyrics, sort_order')
-    .order('sort_order', { ascending: true })
-    .order('name', { ascending: true });
+export async function fetchSongs(): Promise<SongRow[]> {
+  const { url, key } = getEnv();
 
-  if (error) {
-    throw new Error(`Supabase fetch failed: ${error.message}`);
-  }
+  const res = await fetch(
+    `${url}/rest/v1/songs?select=${SELECT}&order=sort_order.asc,name.asc`,
+    {
+      headers: { apikey: key, Authorization: `Bearer ${key}` },
+      cache: 'no-store',
+    },
+  );
 
-  if (!data || data.length === 0) {
-    throw new Error('No songs found in Supabase');
-  }
+  if (!res.ok) throw new Error(`Supabase fetch failed: ${res.statusText}`);
 
-  return data as SongRow[];
+  const data: SongRow[] = await res.json();
+
+  if (!data || data.length === 0) throw new Error('No songs found in Supabase');
+
+  return data;
 }
 
 export async function fetchSongById(id: number): Promise<SongRow | null> {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_PUBLISHABLE_DEFAULT_KEY;
+  const { url, key } = getEnv();
 
-  if (!url || !key) {
-    throw new Error(
-      'Missing SUPABASE_URL or SUPABASE_PUBLISHABLE_DEFAULT_KEY environment variables',
-    );
-  }
+  const res = await fetch(
+    `${url}/rest/v1/songs?select=${SELECT}&id=eq.${id}`,
+    {
+      headers: {
+        apikey: key,
+        Authorization: `Bearer ${key}`,
+        Accept: 'application/vnd.pgrst.object+json',
+      },
+      cache: 'no-store',
+    },
+  );
 
-  const supabase = createClient(url, key, {
-    global: { fetch: (input, init) => fetch(input, { ...init, cache: 'no-store' }) },
-  });
+  if (res.status === 406 || res.status === 404) return null;
+  if (!res.ok) return null;
 
-  const { data, error } = await supabase
-    .from('songs')
-    .select('id, name, key, lyrics, sort_order')
-    .eq('id', id)
-    .single();
-
-  if (error) return null;
-
-  return data as SongRow;
+  return res.json();
 }
