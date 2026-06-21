@@ -4,12 +4,21 @@ import supabase from '@/shared/lib/supabase-browser';
 
 import type { SongEntry } from './types';
 
-const CACHE_KEY = 'songs_cache';
+const CACHE_PREFIX = 'songs_cache_';
+const CACHE_KEY = `${CACHE_PREFIX}${process.env.NEXT_PUBLIC_BUILD_ID ?? 'dev'}`;
+
+function purgeOldCaches() {
+  Object.keys(localStorage)
+    .filter((k) => k.startsWith(CACHE_PREFIX) && k !== CACHE_KEY)
+    .forEach((k) => localStorage.removeItem(k));
+}
 
 export function useSongList(): { songs: SongEntry[] } {
   const [songs, setSongs] = useState<SongEntry[]>([]);
 
   useEffect(() => {
+    purgeOldCaches();
+
     const cached = localStorage.getItem(CACHE_KEY);
     if (cached) {
       try {
@@ -30,10 +39,7 @@ export function useSongList(): { songs: SongEntry[] } {
           num: r.sort_order as number,
         }));
         setSongs(entries);
-        localStorage.setItem(
-          CACHE_KEY,
-          JSON.stringify({ songs: entries, updatedAt: Date.now() }),
-        );
+        localStorage.setItem(CACHE_KEY, JSON.stringify({ songs: entries }));
       });
   }, []);
 
