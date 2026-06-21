@@ -18,7 +18,9 @@ export async function fetchSongs(): Promise<SongRow[]> {
     );
   }
 
-  const supabase = createClient(url, key);
+  const supabase = createClient(url, key, {
+    global: { fetch: (input, init) => fetch(input, { ...init, cache: 'no-store' }) },
+  });
 
   const { data, error } = await supabase
     .from('songs')
@@ -47,7 +49,9 @@ export async function fetchSongById(id: number): Promise<SongRow | null> {
     );
   }
 
-  const supabase = createClient(url, key);
+  const supabase = createClient(url, key, {
+    global: { fetch: (input, init) => fetch(input, { ...init, cache: 'no-store' }) },
+  });
 
   const { data, error } = await supabase
     .from('songs')
