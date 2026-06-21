@@ -26,7 +26,7 @@ export async function fetchSongs(): Promise<SongRow[]> {
     `${url}/rest/v1/songs?select=${SELECT}&order=sort_order.asc,name.asc`,
     {
       headers: { apikey: key, Authorization: `Bearer ${key}` },
-      cache: 'no-store',
+      next: { revalidate: false },
     },
   );
 
@@ -50,7 +50,7 @@ export async function fetchSongById(id: number): Promise<SongRow | null> {
         Authorization: `Bearer ${key}`,
         Accept: 'application/vnd.pgrst.object+json',
       },
-      cache: 'no-store',
+      next: { revalidate: false },
     },
   );
 
