@@ -3,7 +3,7 @@
 .header {
   width: 100%;
 
-  background: color(main);
+  background: var(--accent);
   display: flex;
   padding: 20px 57px;
   justify-content: center;
@@ -15,7 +15,7 @@
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   @include backgroundGradient;
   &__title {
-    color: color(grey, 100);
+    color: var(--on-accent);
     font-size: 40px;
     font-style: normal;
     font-weight: 500;
@@ -54,7 +54,7 @@
   outline: none;
   width: fit-content;
   margin-inline: auto;
-  border: 1px solid color(grey);
+  border: 1px solid var(--border-default);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   cursor: pointer;
   & > {

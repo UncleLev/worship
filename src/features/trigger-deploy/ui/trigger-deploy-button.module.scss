@@ -40,30 +40,30 @@
   &__title {
     font-size: 18px;
     font-weight: 600;
-    color: #333;
+    color: var(--text-primary);
     margin: 0;
   }
 
   &__warning {
     font-size: 15px;
-    color: #555;
+    color: var(--text-secondary);
     margin: 0;
   }
 
   &__info {
     font-size: 14px;
-    color: #777;
+    color: var(--text-muted);
     margin: 0;
   }
 
   &__countdown {
     font-size: 15px;
-    color: #555;
+    color: var(--text-secondary);
     margin: 0;
 
     strong {
       font-variant-numeric: tabular-nums;
-      color: #333;
+      color: var(--text-primary);
     }
   }
 
@@ -82,16 +82,16 @@
 
   &__cancel {
     padding: 8px 20px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-default);
     border-radius: 8px;
     background: none;
     font-size: 15px;
     cursor: pointer;
-    color: #555;
+    color: var(--text-secondary);
     transition: background 0.15s;
 
     &:hover {
-      background: #f0f0f0;
+      background: var(--bg-surface-hover);
     }
   }
 
