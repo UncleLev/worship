@@ -19,7 +19,7 @@
 .title {
   font-size: 24px;
   font-weight: 600;
-  color: var(--text-primary);
+  color: color(text-primary);
   text-align: center;
 }
 
@@ -30,7 +30,7 @@
   padding-block: 6px;
   align-items: center;
   border-radius: 20px;
-  border: 1px solid var(--border-strong);
+  border: 1px solid color(border-strong);
 
   input {
     width: 100%;
@@ -39,22 +39,22 @@
     font-size: 20px;
     font-weight: 400;
     line-height: 40px;
-    color: var(--text-primary);
+    color: color(text-primary);
     &::placeholder {
-      color: var(--text-muted);
+      color: color(text-muted);
     }
   }
 }
 
 .error {
   font-size: 14px;
-  color: var(--chords);
+  color: color(chords);
   text-align: center;
 }
 
 .button {
   @include backgroundGradient;
-  color: var(--on-accent);
+  color: color(on-accent);
   border: none;
   border-radius: 20px;
   padding: 12px 24px;

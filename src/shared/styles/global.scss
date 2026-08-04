@@ -11,14 +11,14 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  background: var(--bg-page);
-  color: var(--text-primary);
+  background: color(bg-page);
+  color: color(text-primary);
 }
 
 .ReactModal__Content {
-  background: var(--bg-page) !important;
-  color: var(--text-primary) !important;
-  border-color: var(--border-default) !important;
+  background: color(bg-page) !important;
+  color: color(text-primary) !important;
+  border-color: color(border-default) !important;
 }
 
 a {
@@ -27,7 +27,7 @@ a {
 }
 
 span.chords {
-  color: var(--chords);
+  color: color(chords);
   font-weight: 700;
 }
 
