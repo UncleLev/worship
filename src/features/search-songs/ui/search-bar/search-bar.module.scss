@@ -8,7 +8,7 @@
   align-items: center;
   gap: 20px;
   border-radius: 20px;
-  border: 1px solid color(grey, 900);
+  border: 1px solid color(border-strong);
   &__input {
     width: calc(100% - 40px);
     outline: none;
@@ -17,9 +17,9 @@
     font-style: normal;
     font-weight: 400;
     line-height: 40px;
-    color: color(text);
+    color: color(text-primary);
     &::placeholder {
-      color: color(grey, 500);
+      color: color(text-muted);
     }
   }
 }

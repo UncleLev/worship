@@ -1,0 +1,44 @@
+:root {
+  color-scheme: light;
+
+  --bg-page: #ffffff;
+  --bg-surface: #f1f2f3;
+  --bg-surface-hover: #e8eae9;
+
+  --border-subtle: #dadce0;
+  --border-default: #9aa0a6;
+  --border-strong: #202124;
+
+  --text-primary: #000000;
+  --text-secondary: #5f6368;
+  --text-muted: #9aa0a6;
+
+  // Text/icons that sit on top of the coloured gradient header or the
+  // solid accent background — stays light regardless of theme.
+  --on-accent: #f1f2f3;
+
+  --accent: #353535;
+  --chords: #ed7676;
+}
+
+// Toggled on <html> by the inline theme script in the root layout, which
+// reads the browser's prefers-color-scheme before first paint (and keeps
+// listening for live OS-theme changes).
+html[dark] {
+  color-scheme: dark;
+
+  --bg-page: #121212;
+  --bg-surface: #1e1f20;
+  --bg-surface-hover: #2c2d2f;
+
+  --border-subtle: #3c4043;
+  --border-default: #5f6368;
+  --border-strong: #9aa0a6;
+
+  --text-primary: #e8eaed;
+  --text-secondary: #b0b4ba;
+  --text-muted: #8a8f98;
+
+  --accent: #4a4a4a;
+  --chords: #ff8a8a;
+}

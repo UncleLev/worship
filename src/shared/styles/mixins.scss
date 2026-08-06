@@ -1,22 +1,29 @@
-@use 'sass:map';
-@use './vars.scss' as *;
+@use 'sass:list';
 
-@function color($color, $tone: 400) {
-  $palette: map.get($palettes, $color);
+// Theme tokens are plain CSS custom properties (see theme.scss) so their
+// value can flip at runtime when `html[dark]` is toggled — color() is just
+// a friendlier accessor for them.
+$theme-tokens: (
+  'bg-page',
+  'bg-surface',
+  'bg-surface-hover',
+  'border-subtle',
+  'border-default',
+  'border-strong',
+  'text-primary',
+  'text-secondary',
+  'text-muted',
+  'on-accent',
+  'accent',
+  'chords'
+);
 
-  @if not $palette {
-    @warn "unknown color `#{$color}` in palette";
-    @return null;
+@function color($token) {
+  @if not list.index($theme-tokens, $token) {
+    @warn "unknown theme token `#{$token}`";
   }
 
-  $shade: map.get($palette, $tone);
-
-  @if not $shade {
-    @warn "unknown tone `#{$tone}` in color `#{$color}`";
-    @return null;
-  }
-
-  @return $shade;
+  @return var(--#{$token});
 }
 
 @mixin backgroundGradient {
