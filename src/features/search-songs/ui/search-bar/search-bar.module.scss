@@ -13,6 +13,9 @@
     width: calc(100% - 40px);
     outline: none;
     border: none;
+    background: transparent;
+    -webkit-appearance: none;
+    appearance: none;
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
