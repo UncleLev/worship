@@ -26,6 +26,11 @@ a {
   text-decoration: none;
 }
 
+button {
+  color: inherit;
+  font: inherit;
+}
+
 span.chords {
   color: color(chords);
   font-weight: 700;
