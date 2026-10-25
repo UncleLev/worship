@@ -19,7 +19,7 @@ type SongViewType = {
 const hideKey = 'hide_chords';
 
 const SongView = ({ className, song }: SongViewType) => {
-  const [hideChords, setHideChords] = useState(false);
+  const [hideChords, setHideChords] = useState(true);
   const [selectedKey, setSelectedKey] = useState(song.key);
 
   const handleHideChords = () => {
@@ -30,7 +30,7 @@ const SongView = ({ className, song }: SongViewType) => {
   };
 
   useLayoutEffect(() => {
-    const hide = localStorage.getItem(hideKey) === 'true';
+    const hide = localStorage.getItem(hideKey) !== 'false';
     setHideChords(hide);
     setSelectedKey(song.key);
   }, [song.key]);
