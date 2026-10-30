@@ -29,7 +29,7 @@ const Text = ({
     value = trimText || '  ';
   }
 
-  if (isChords) {
+  if (isChords && !hide) {
     value = transposeChordsString(blockText.text, originKey, selectedKey);
   }
   return (
