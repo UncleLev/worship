@@ -21,6 +21,9 @@ const hideKey = 'hide_chords';
 const SongView = ({ className, song }: SongViewType) => {
   const [hideChords, setHideChords] = useState(true);
   const [selectedKey, setSelectedKey] = useState(song.key);
+  // Until the effect below syncs it, selectedKey can lag behind song.key
+  // (e.g. the editor preview gains its first chord line), so fall back to it.
+  const currentKey = selectedKey || song.key;
 
   const handleHideChords = () => {
     setHideChords((state) => {
@@ -42,7 +45,7 @@ const SongView = ({ className, song }: SongViewType) => {
           {!hideChords && (
             <TonalitySelect
               originKey={song.key}
-              transposeKey={selectedKey}
+              transposeKey={currentKey}
               onKeyChange={setSelectedKey}
             />
           )}
@@ -59,7 +62,7 @@ const SongView = ({ className, song }: SongViewType) => {
                 block={block}
                 hideChords={hideChords}
                 originKey={song.key}
-                selectedKey={selectedKey}
+                selectedKey={currentKey}
               />
             )}
           </div>
