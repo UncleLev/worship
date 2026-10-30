@@ -156,13 +156,13 @@ export default function AdminSongList() {
       </div>
       <div className={styles.list}>
         {fetchError && <div className={styles.error}>{fetchError}</div>}
-        {songs.map((song, index) => (
+        {songs.map((song) => (
           <Link
             key={song.id}
             href={`/manage/edit/${song.id}`}
             className={styles.item}
           >
-            <span className={styles.item__order}>{index + 1}.</span>
+            <span className={styles.item__order}>{song.sort_order}.</span>
             <span className={styles.item__name}>{song.name}</span>
           </Link>
         ))}
