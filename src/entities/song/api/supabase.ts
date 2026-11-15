@@ -17,6 +17,11 @@ function getEnv() {
   return { url, key };
 }
 
+// Next caches fetches during static generation and .next/cache is restored
+// between CI builds, so a stale Supabase response could be reused forever.
+// Headers are part of the fetch cache key: a per-build value forces fresh data.
+const BUILD_ID = process.env.NEXT_PUBLIC_BUILD_ID ?? String(Date.now());
+
 const SELECT = 'id,name,key,lyrics,sort_order';
 
 export async function fetchSongs(): Promise<SongRow[]> {
@@ -25,7 +30,11 @@ export async function fetchSongs(): Promise<SongRow[]> {
   const res = await fetch(
     `${url}/rest/v1/songs?select=${SELECT}&order=sort_order.asc,name.asc`,
     {
-      headers: { apikey: key, Authorization: `Bearer ${key}` },
+      headers: {
+        apikey: key,
+        Authorization: `Bearer ${key}`,
+        'x-build-id': BUILD_ID,
+      },
     },
   );
 
@@ -48,6 +57,7 @@ export async function fetchSongById(id: number): Promise<SongRow | null> {
         apikey: key,
         Authorization: `Bearer ${key}`,
         Accept: 'application/vnd.pgrst.object+json',
+        'x-build-id': BUILD_ID,
       },
     },
   );
